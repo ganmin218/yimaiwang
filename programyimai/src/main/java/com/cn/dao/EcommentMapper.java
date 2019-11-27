@@ -1,0 +1,17 @@
+package com.cn.dao;
+
+import com.cn.entity.Ecomment;
+
+public interface EcommentMapper {
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(Ecomment record);
+
+    int insertSelective(Ecomment record);
+
+    Ecomment selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(Ecomment record);
+
+    int updateByPrimaryKey(Ecomment record);
+}
