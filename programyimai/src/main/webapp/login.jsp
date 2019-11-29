@@ -61,14 +61,30 @@
         }
 
         #span1 {
-            font-size: 12px;
+            font-size: 15px;
             color: skyblue;
         }
+
+        a {
+            text-decoration: none;
+        }
+
+        #a2 {
+            background-color: orange;
+            height: 30px;
+            margin-top: -15px;
+        }
+
+        ul li {
+            list-style: none;
+            display: inline;
+            padding-left: 10px;
+        }
+
     </style>
 </head>
 <body>
 <div id="top">
-    <center>
         <div id="top1">
             <table width="1350px" cellpadding="0" cellspacing="0" border="1px solid red" style="text-align: center">
                 <tr>
@@ -93,21 +109,21 @@
                     <td></td>
                     <td></td>
                 </tr>
-                <tr style="background-color: orange;">
-                    <td></td>
-                    <td>音乐</td>
-                    <td>影视</td>
-                    <td>少儿</td>
-                    <td>动漫</td>
-                    <td>小说</td>
-                    <td>外语</td>
-                    <td>数码相机</td>
-                    <td>笔记本</td>
-                    <td style="float: left">Investor Relations</td>
-                </tr>
             </table>
+            <div id="a2">
+                <ul style="margin-left: 200px">
+                    <li>音乐<span>&nbsp;|</span></li>
+                    <li>影视<span>&nbsp;|</span></li>
+                    <li>少儿<span>&nbsp;|</span></li>
+                    <li>动漫<span>&nbsp;|</span></li>
+                    <li>小说<span>&nbsp;|</span></li>
+                    <li>外语<span>&nbsp;|</span></li>
+                    <li>数码相机&nbsp;<span>|</span></li>
+                    <li>笔记本&nbsp;<span>|</span></li>
+                    <li>Investor Relations</li>
+                </ul>
+            </div>
         </div>
-    </center>
 
 
     <div id="div1">

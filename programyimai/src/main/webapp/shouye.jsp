@@ -27,8 +27,8 @@
     <frame src="top.jsp" noresize="noresize"/>
     <frameset cols="25%,40%,35%" frameborder="no">
         <frame src="bodyleft.jsp" noresize="noresize"/>
-        <frame src="central.jsp" name="right" noresize="noresize"/>
-        <frame src="bodyright.jsp" name="central" noresize="noresize"/>
+        <frame src="central.jsp" name="central" noresize="noresize"/>
+        <frame src="bodyright.jsp" name="bodyright" noresize="noresize"/>
     </frameset>
     <frame src="buttom.jsp" noresize="noresize"/>
 </frameset>

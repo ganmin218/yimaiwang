@@ -51,4 +51,14 @@ public class Enews {
     public void setCreatetime(String createtime) {
         this.createtime = createtime == null ? null : createtime.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Enews{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", createtime='" + createtime + '\'' +
+                '}';
+    }
 }

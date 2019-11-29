@@ -92,7 +92,10 @@
                selectByExampleQueryId="false">
         </table>
         <!-- 数据库中该字段的类型是 txt ,不同版本生成对应字体类的属性类型可能不同，因此指定转换类型 -->
-
+        <table tableName="leibie" domainObjectName="Leibie" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
 
         <!-- mybatis插件的搭建 -->
     </context>

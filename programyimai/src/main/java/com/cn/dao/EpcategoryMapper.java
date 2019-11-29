@@ -2,6 +2,8 @@ package com.cn.dao;
 
 import com.cn.entity.Epcategory;
 
+import java.util.List;
+
 public interface EpcategoryMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface EpcategoryMapper {
     int updateByPrimaryKeySelective(Epcategory record);
 
     int updateByPrimaryKey(Epcategory record);
+
+    List<Epcategory> selectEpcategoryByParentId(Integer id);
 }

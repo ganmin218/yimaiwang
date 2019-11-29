@@ -24,12 +24,6 @@
     <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/uploadPreview.js"></script>
     <style type="text/css">
-        #a1 {
-            list-style: none;
-            margin-top: 15px;
-            line-height: 30px;
-        }
-
         #div1 {
             width: 460px;
             height: 440px;
@@ -37,9 +31,39 @@
         }
 
         #div2 {
-            width: 250px;
+            width: 300px;
             height: 440px;
             border: 1px solid skyblue;
+        }
+
+        ul li {
+            list-style: none;
+            line-height: 30px;
+        }
+
+        .a1 {
+            border: 1px solid gray;
+            height: 40px;
+            width: 300px;
+            background-color: #dedede;
+        }
+
+        img {
+            width: 15px;
+            height: 15px;
+        }
+
+        .a2 {
+            margin-left: -20px;
+            float: left;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            height: 440px;
+        }
+
+        a {
+            text-decoration: none;
         }
     </style>
 </head>
@@ -49,32 +73,16 @@
     <div id="div1">
         <center>
             <div id="div2">
-                <table width="250px">
-                    <tr style="background-color: gainsboro">
-                        <td><b>新闻动态</b></td>
-                    </tr>
-                    <tr>
-                        <td>新闻动态</td>
-                    </tr>
-                    <tr>
-                        <td>新闻动态</td>
-                    </tr>
-                    <tr>
-                        <td>新闻动态</td>
-                    </tr>
-                    <tr>
-                        <td>新闻动态</td>
-                    </tr>
-                    <tr>
-                        <td>新闻动态</td>
-                    </tr>
-                    <tr>
-                        <td>新闻动态</td>
-                    </tr>
-                    <tr>
-                        <td>新闻动态</td>
-                    </tr>
-                </table>
+                <div class="a1">
+                    <b>新闻动态</b>
+                </div>
+                <div class="a2">
+                    <ul>
+                        <c:forEach items="${enews}" var="enew">
+                            <li>${enew.title }</li>
+                        </c:forEach>
+                    </ul>
+                </div>
             </div>
         </center>
     </div>
@@ -82,6 +90,25 @@
 
 
 <script type="text/javascript">
+    var time = setInterval(function () {
+        t();
+    }, 5000)
+
+    function t() {
+        var he = $(".a2>ul>li").height();//找到li高
+        $(".a2>ul>li").eq(0).appendTo($(".a2>ul")); //复制第一个到最后一个
+        $(".a2>ul").animate({
+            "marginTop": "-" + he
+        }, 500, function () {
+            $(".a2>ul").css({
+                "marginTop": 0
+            })
+        })
+    }
+
+    $(function () {
+        $(".a2>ul li:gt(8)").hide();
+    })
 </script>
 </body>
 </html>

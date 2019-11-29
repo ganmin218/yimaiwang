@@ -19,6 +19,15 @@
         from epcategory
         where id = #{id,jdbcType=INTEGER}
     </select>
+
+    <!--selectEpcategoryByParentId查找二级目录-->
+    <select id="selectEpcategoryByParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from epcategory
+        where parentId = #{id,jdbcType=INTEGER}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from epcategory
     where id = #{id,jdbcType=INTEGER}

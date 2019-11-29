@@ -34,33 +34,86 @@
             overflow-x: hidden;
             overflow-y: hidden;
         }
+
+        a {
+            text-decoration: none;
+        }
+
+        #a2 {
+            background-color: orange;
+            height: 30px;
+            margin-top: -15px;
+        }
+
+        ul li {
+            list-style: none;
+            display: inline;
+            padding-left: 10px;
+        }
     </style>
 </head>
 
 <body>
 <div id="top">
-    <center>
-        <table width="1350px" cellpadding="1" cellspacing="1" border="1px solid red" style="text-align: center">
+
+    <div id="top1">
+        <table width="1350px" cellpadding="0" cellspacing="0" border="1px solid red" style="text-align: center">
             <tr>
-                <td width="300px" rowspan="2">易买网</td>
-                <td width="550px" colspan="6"></td>
-                <td width="500px"><span style="float: left;">返回前台页面</span></td>
+                <td width="300px" rowspan="2"><span style="float: right"><img src="img/easybuy.png"></span></td>
+                <td width="550px" colspan="8"></td>
+                <td width="500px">
+                    <span id="span1"><img src="img/gouwu.png">
+                        <a href="showgouwu.do">购物车</a>&nbsp;&nbsp;
+                        <c:choose>
+                            <c:when test="${empty user }">
+                                <a href="register.jsp" target="_blank">注册</a>&nbsp;&nbsp;
+                                <a href="login.jsp">登陆</a>&nbsp;&nbsp;
+                            </c:when>
+                            <c:otherwise>
+                                <a href="zhuxiao.do" target="_blank">注销&nbsp;&nbsp;</a>
+                            </c:otherwise>
+                        </c:choose>
+                        <a href="message.do" target="central">留言&nbsp;&nbsp;</a>
+                        <c:choose>
+                            <c:when test="${user.type==1 }">
+                                <a href="adminshouye.do?leftmessage=管理后台" target="_blank">后台管理</a>
+                            </c:when>
+                        </c:choose>
+                    </span>
+                </td>
             </tr>
             <tr>
+                <td></td>
                 <td>首页</td>
-                <td>用户</td>
-                <td>商品</td>
-                <td>订单</td>
-                <td>留言</td>
-                <td>新闻</td>
+                <td>图书</td>
+                <td>百货</td>
+                <td>品牌</td>
+                <td>促销</td>
+                <td></td>
+                <td></td>
                 <td></td>
             </tr>
-            <tr style="background-color: orange;">
-                <td colspan="8"><span style="float: right;">管理员**您好,今天是2019-11-25,欢迎回到管理后台。</span></td>
-            </tr>
         </table>
-    </center>
-    <span style="margin-left: 100px">您所在的位置是:易买网>管理后台</span>
+        <div id="a2">
+            <ul style="margin-left: 200px">
+                <li>音乐<span>&nbsp;|</span></li>
+                <li>影视<span>&nbsp;|</span></li>
+                <li>少儿<span>&nbsp;|</span></li>
+                <li>动漫<span>&nbsp;|</span></li>
+                <li>小说<span>&nbsp;|</span></li>
+                <li>外语<span>&nbsp;|</span></li>
+                <li>数码相机&nbsp;<span>|</span></li>
+                <li>笔记本&nbsp;<span>|</span></li>
+                <li>Investor Relations</li>
+            </ul>
+        </div>
+    </div>
+    <c:choose>
+        <c:when test="${!empty leftmessage}">
+            <span style="margin-left: 120px">您现在的位置:易买网&nbsp;>&nbsp;${leftmessage }</span>
+        </c:when>
+    </c:choose>
+
 
 
     <%--

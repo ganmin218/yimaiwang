@@ -2,6 +2,8 @@ package com.cn.dao;
 
 import com.cn.entity.Enews;
 
+import java.util.List;
+
 public interface EnewsMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,7 @@ public interface EnewsMapper {
     int updateByPrimaryKeySelective(Enews record);
 
     int updateByPrimaryKey(Enews record);
+
+    //显示新闻
+    List<Enews> selectEnews();
 }

@@ -2,6 +2,8 @@ package com.cn.dao;
 
 import com.cn.entity.Ecomment;
 
+import java.util.List;
+
 public interface EcommentMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,7 @@ public interface EcommentMapper {
     int updateByPrimaryKeySelective(Ecomment record);
 
     int updateByPrimaryKey(Ecomment record);
+
+    List<Ecomment> selectEcomment();
+
 }

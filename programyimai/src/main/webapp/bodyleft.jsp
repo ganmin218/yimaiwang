@@ -24,13 +24,6 @@
     <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="js/uploadPreview.js"></script>
     <style type="text/css">
-        #a1 {
-            list-style: none;
-            margin-top: 15px;
-            margin-left: -30px;
-            line-height: 30px;
-        }
-
         #div1 {
             width: 330px;
             height: 440px;
@@ -39,64 +32,84 @@
 
         #div2 {
             width: 200px;
-            height: 440px;
+            height: 300px;
+            float: right;
             border: 1px solid skyblue;
+        }
+
+        #div3 {
+            width: 200px;
+            height: 140px;
+            float: right;
+            border: 1px solid skyblue;
+        }
+
+        dt {
+            background-color: gainsboro;
+            font-weight: bold;
+        }
+
+        dl {
+            margin: 5px;
         }
     </style>
 </head>
 
 <body>
 <div id="div1">
-    <center>
-        <div id="div2">
-            <table>
-                <tr>
-                    <td colspan="2"><b>用户管理</b></td>
-                </tr>
-                <tr>
-                    <td>用户管理</td>
-                    <td>新增</td>
-                </tr>
-                <tr>
-                    <td colspan="2"><b>商品信息</b></td>
-                </tr>
-                <tr>
-                    <td>分类管理</td>
-                    <td>新增</td>
-                </tr>
-                <tr>
-                    <td>商品管理</td>
-                    <td>新增</td>
-                </tr>
-                <tr>
-                    <td colspan="2"><b>订单管理</b></td>
-                </tr>
-                <tr>
-                    <td>订单管理</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><b>留言管理</b></td>
-                </tr>
-                <tr>
-                    <td>留言管理</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><b>新闻管理</b></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>新增</td>
-                </tr>
-
-            </table>
+    <div id="div2">
+        <p><b>商品分类</b></p>
+        <c:forEach items="${map }" var="map">
+            <dl>
+                <dt>${map.value }</dt>
+                <c:forEach items="${map.key }" var="mulu">
+                    <dd><img src="img/left-dd.png">${mulu.name }</dd>
+                </c:forEach>
+            </dl>
+        </c:forEach>
         </div>
-    </center>
+
+    <div id="div3">
+        放浏览记录!
+    </div>
+
+
 </div>
 
 
 <script type="text/javascript">
+    /* $(function(){
+         $("dd").hide();
+
+         $("dl dt").click(function(){
+             var obj=$(this);
+             var a=$(this).text();
+             $(this).parents("dl").nextAll("dd").remove();
+             $.getJSON("leibie.do","name="+a,collback);
+             function collback(data) {
+                 $(data).each(function () {
+                     var dd=$("<dd><img src='img/left-dd.png'>"+this.name+"</dd>");
+                     $(obj).parents("dl").after(dd);
+                 });
+             }
+         });
+         $("p b").click(function () {
+             $("dl").nextAll("dd").remove();
+         });
+
+     })*/
+    $(function () {
+        $("dd").hide();
+        $("dl dt").click(function () {
+            if ($(this).parent().find("dd").is(":hidden")) {
+                $(this).parent().find("dd").show();
+            } else {
+                $(this).parent().find("dd").hide();
+            }
+        });
+
+    })
+
 </script>
 </body>
 </html>

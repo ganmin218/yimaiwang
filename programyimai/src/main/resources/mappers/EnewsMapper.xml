@@ -18,6 +18,15 @@
         from enews
         where id = #{id,jdbcType=INTEGER}
     </select>
+
+    <!--selectEnews显示新闻-->
+    <select id="selectEnews" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from enews
+    </select>
+
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from enews
     where id = #{id,jdbcType=INTEGER}

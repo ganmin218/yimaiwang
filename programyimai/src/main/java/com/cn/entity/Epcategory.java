@@ -62,4 +62,15 @@ public class Epcategory {
     public void setIconclass(String iconclass) {
         this.iconclass = iconclass == null ? null : iconclass.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Epcategory{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentid=" + parentid +
+                ", type=" + type +
+                ", iconclass='" + iconclass + '\'' +
+                '}';
+    }
 }

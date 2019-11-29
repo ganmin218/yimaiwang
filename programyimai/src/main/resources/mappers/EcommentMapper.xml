@@ -20,6 +20,14 @@
         from ecomment
         where id = #{id,jdbcType=INTEGER}
     </select>
+
+    <!--selectEcomment显示评论留言-->
+    <select id="selectEcomment" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ecomment order by createtime desc ;
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from ecomment
     where id = #{id,jdbcType=INTEGER}
