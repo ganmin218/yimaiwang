@@ -69,9 +69,7 @@
 </head>
 
 <body>
-<center>
     <div id="div1">
-        <center>
             <div id="div2">
                 <div class="a1">
                     <b>新闻动态</b>
@@ -79,14 +77,13 @@
                 <div class="a2">
                     <ul>
                         <c:forEach items="${enews}" var="enew">
-                            <li>${enew.title }</li>
+                            <li><img src="img/right.png"><a href="enewsshow.do?id=${enew.id }"
+                                                            target="central">${enew.title }</a></li>
                         </c:forEach>
                     </ul>
                 </div>
             </div>
-        </center>
     </div>
-</center>
 
 
 <script type="text/javascript">

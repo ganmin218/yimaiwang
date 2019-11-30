@@ -73,4 +73,15 @@ public class Epcategory {
                 ", iconclass='" + iconclass + '\'' +
                 '}';
     }
+
+    public Epcategory(Integer id, String name, Integer parentid) {
+        this.id = id;
+        this.name = name;
+        this.parentid = parentid;
+    }
+
+    public Epcategory(String name, Integer parentid) {
+        this.name = name;
+        this.parentid = parentid;
+    }
 }

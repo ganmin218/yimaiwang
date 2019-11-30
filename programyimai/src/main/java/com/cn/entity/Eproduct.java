@@ -117,4 +117,29 @@ public class Eproduct {
     public void setIsdelete(Integer isdelete) {
         this.isdelete = isdelete;
     }
+
+    @Override
+    public String toString() {
+        return "Eproduct{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", stock=" + stock +
+                ", categorylevel1id=" + categorylevel1id +
+                ", categorylevel2id=" + categorylevel2id +
+                ", categorylevel3id=" + categorylevel3id +
+                ", filename='" + filename + '\'' +
+                ", isdelete=" + isdelete +
+                '}';
+    }
+
+    public Eproduct(String name, String description, Float price, Integer stock, Integer categorylevel1id, String filename) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.categorylevel1id = categorylevel1id;
+        this.filename = filename;
+    }
 }

@@ -37,4 +37,8 @@ public class Leibie {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public Leibie(String name) {
+        this.name = name;
+    }
 }

@@ -37,13 +37,6 @@
             border: 1px solid skyblue;
         }
 
-        #div3 {
-            width: 200px;
-            height: 140px;
-            float: right;
-            border: 1px solid skyblue;
-        }
-
         dt {
             background-color: gainsboro;
             font-weight: bold;
@@ -52,48 +45,46 @@
         dl {
             margin: 5px;
         }
+
+        a {
+            text-decoration: none;
+        }
     </style>
 </head>
 
 <body>
 <div id="div1">
     <div id="div2">
-        <p><b>商品分类</b></p>
         <dl>
-            <dt>生活用品</dt>
-            <dd><img src="img/left-dd.png">毛巾</dd>
-            <dd><img src="img/left-dd.png">洗衣粉</dd>
-            <dd><img src="img/left-dd.png">牙刷</dd>
+            <dt>用户管理</dt>
+            <dd><a href="showuser.do" target="abodyright"><img src="img/left-dd.png">用户管理</a><span style="float: right">
+                <a href="HCmanager/adminadduser.jsp" target="abodyright">新增</a></span></dd>
         </dl>
         <dl>
-            <dt>生活用品</dt>
-            <dd><img src="img/left-dd.png">毛巾</dd>
-            <dd><img src="img/left-dd.png">洗衣粉</dd>
+            <dt>商品信息</dt>
+            <dd><a href="showleibie.do" target="abodyright"><img src="img/left-dd.png">分类管理</a><span
+                    style="float: right">
+                <a href="HCmanager/addleibie.jsp" target="abodyright">新增</a></span></dd>
+            <dd><a href="showgoods.do" target="abodyright"><img src="img/left-dd.png">商品管理</a><span
+                    style="float: right">
+                <a href="HCmanager/addgoods.jsp" target="abodyright">新增</a></span></dd>
         </dl>
         <dl>
-            <dt>生活用品</dt>
-            <dd><img src="img/left-dd.png">毛巾</dd>
-            <dd><img src="img/left-dd.png">洗衣粉</dd>
-            <dd><img src="img/left-dd.png">洗衣粉</dd>
+            <dt>订单管理</dt>
+            <dd><img src="img/left-dd.png">订单管理</dd>
         </dl>
         <dl>
-            <dt>生活用品</dt>
-            <dd><img src="img/left-dd.png">毛巾</dd>
-            <dd><img src="img/left-dd.png">洗衣粉</dd>
-            <dd><img src="img/left-dd.png">洗衣粉</dd>
+            <dt>留言管理</dt>
+            <dd><a href="amessage.do" target="abodyright"><img src="img/left-dd.png">留言管理</a></dd>
         </dl>
+
         <dl>
-            <dt>生活用品</dt>
-            <dd><img src="img/left-dd.png">毛巾</dd>
-            <dd><img src="img/left-dd.png">洗衣粉</dd>
-            <dd><img src="img/left-dd.png">洗衣粉</dd>
+            <dt>新闻管理</dt>
+            <dd><a href="selectnews.do" target="abodyright"><img src="img/left-dd.png">新闻管理</a><span
+                    style="float: right">
+                <a href="HCmanager/addnews.jsp" target="abodyright">新增</a></span></dd>
         </dl>
     </div>
-
-    <div id="div3">
-        放浏览记录!
-    </div>
-
 
 </div>
 

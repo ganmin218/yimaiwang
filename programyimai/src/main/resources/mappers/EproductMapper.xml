@@ -32,6 +32,29 @@
         <include refid="Base_Column_List"/>
         from eproduct
     </select>
+    <!--selectproductsBypage首页分页-->
+    <select id="selectproductsBypage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from eproduct limit #{ye },8
+    </select>
+
+
+    <!--selectproductsByEpcategoryId根据二级目录查询-->
+    <select id="selectproductsByEpcategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from eproduct
+        where categoryLevel1Id = #{id,jdbcType=INTEGER}
+    </select>
+    <!--分页-->
+    <select id="selectproductsByEpcategoryIdpage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from eproduct
+        where categoryLevel1Id = #{param1 }
+        limit #{param2 },8
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from eproduct

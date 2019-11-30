@@ -2,6 +2,8 @@ package com.cn.dao;
 
 import com.cn.entity.Euser;
 
+import java.util.List;
+
 public interface EuserMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,5 +18,7 @@ public interface EuserMapper {
     int updateByPrimaryKey(Euser record);
 
     Euser selectuser(Euser user);
+
+    List<Euser> selectAlluser();
 
 }

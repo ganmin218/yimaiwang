@@ -33,6 +33,26 @@
         #div3 {
             width: 800px;
         }
+
+        #a3 {
+            width: 800px;
+            padding: 20px;
+            float: left;
+            margin-top: 20px;
+            text-align: center;
+            border-top: 2px solid orange;
+            position: relative;
+        }
+
+        .q1 {
+            border-bottom: 1px solid gold;
+            border-right: 1px solid gold;
+            height: 30px;
+        }
+
+        .q2 {
+            border-bottom: 1px solid gold;
+        }
     </style>
 </head>
 
@@ -41,9 +61,31 @@
     <div id="div3">
         <br>
         <span><img src="../img/aright-top.png"><b>留言管理</b></span><br>
-        <hr style="border: 1px solid orange">
     </div>
-    <div>
+    <div id="a3">
+        <table cellspacing="0" cellpadding="0" style="width: 800px">
+            <tr style="background-color: #FFEB99;height: 20px;">
+                <th class="q1">编号</th>
+                <th class="q1">姓名</th>
+                <th class="q1">留言内容</th>
+                <th class="q1">回复内容</th>
+                <th>操作</th>
+            </tr>
+            <c:forEach items="${ecomments}" var="ecomment">
+                <tr style="height: 20px;">
+                    <td class="q1" style="text-align: center">${ecomment.id }</td>
+                    <td class="q1" style="text-align: center">${ecomment.nickname }</td>
+                    <td class="q1">${ecomment.content }</td>
+                    <td class="q1" style="text-align: center">${ecomment.reply==null?"":"已回复" }</td>
+                    <td class="q2" style="text-align: center">
+                        <a href="addreply.do?id=${ecomment.id }">回复</a>&nbsp;&nbsp;
+                        <a href="deletereply.do?id=${ecomment.id }" onclick="return confirm('确认删除?')">删除</a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+    <%--<div>
         <table cellspacing="0" cellpadding="0" style="margin-left:30px;text-align: center;">
             <tr style="background-color: ghostwhite">
                 <td>编号</td>
@@ -64,7 +106,7 @@
                 </tr>
             </c:forEach>
         </table>
-    </div>
+    </div>--%>
 
 </div>
 

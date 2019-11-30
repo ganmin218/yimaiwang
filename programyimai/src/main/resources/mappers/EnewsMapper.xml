@@ -23,7 +23,7 @@
     <select id="selectEnews" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from enews
+        from enews order by createTime desc
     </select>
 
 

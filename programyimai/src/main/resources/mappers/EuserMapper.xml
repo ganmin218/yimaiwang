@@ -35,6 +35,12 @@
         where loginName = #{loginname,jdbcType=VARCHAR}
         and password = #{password,jdbcType=VARCHAR}
     </select>
+    <!--selectuser查询用户-->
+    <select id="selectAlluser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from euser
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from euser

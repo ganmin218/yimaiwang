@@ -17,5 +17,13 @@ public interface EproductMapper {
 
     int updateByPrimaryKey(Eproduct record);
 
+    //登录后就查询
     List<Eproduct> selectproducts();
+
+    List<Eproduct> selectproductsBypage(Integer ye);
+
+    //根据二级目录
+    List<Eproduct> selectproductsByEpcategoryId(Integer id);
+
+    List<Eproduct> selectproductsByEpcategoryIdpage(Integer id, Integer ye);
 }

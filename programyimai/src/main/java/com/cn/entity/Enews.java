@@ -61,4 +61,16 @@ public class Enews {
                 ", createtime='" + createtime + '\'' +
                 '}';
     }
+
+    public Enews(Integer id, String title, String content) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+    }
+
+    public Enews(String title, String content, String createtime) {
+        this.title = title;
+        this.content = content;
+        this.createtime = createtime;
+    }
 }

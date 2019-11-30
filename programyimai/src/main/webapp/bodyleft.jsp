@@ -63,7 +63,8 @@
             <dl>
                 <dt>${map.value }</dt>
                 <c:forEach items="${map.key }" var="mulu">
-                    <dd><img src="img/left-dd.png">${mulu.name }</dd>
+                    <dd><img src="img/left-dd.png"><a href="showproduct.do?id=${mulu.id }"
+                                                      target="central">${mulu.name }</a></dd>
                 </c:forEach>
             </dl>
         </c:forEach>
