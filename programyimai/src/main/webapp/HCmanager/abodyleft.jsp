@@ -64,10 +64,10 @@
             <dt>商品信息</dt>
             <dd><a href="showleibie.do" target="abodyright"><img src="img/left-dd.png">分类管理</a><span
                     style="float: right">
-                <a href="HCmanager/addleibie.jsp" target="abodyright">新增</a></span></dd>
+                <a href="addleibie.do" target="abodyright">新增</a></span></dd>
             <dd><a href="showgoods.do" target="abodyright"><img src="img/left-dd.png">商品管理</a><span
                     style="float: right">
-                <a href="HCmanager/addgoods.jsp" target="abodyright">新增</a></span></dd>
+                <a href="addgoods.do" target="abodyright">新增</a></span></dd>
         </dl>
         <dl>
             <dt>订单管理</dt>

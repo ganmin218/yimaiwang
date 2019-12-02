@@ -64,7 +64,9 @@
                     <tr>
                         <td colspan="2">
                             <center><input type="submit" value="更新" style="background-color: green"
-                                           onclick="return confirm('确认修改这条信息么?')"/></center>
+                                           onclick="return confirm('确认修改这条信息么?')"/>
+                                <input type="button" value="返回" onclick="history.back(-1)"/>
+                            </center>
                         </td>
                     </tr>
                 </table>

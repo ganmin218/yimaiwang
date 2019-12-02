@@ -53,7 +53,7 @@
     </div>
     <div id="div2">
         <center>
-            <form action="addgoods.do" method="post" enctype="multipart/form-data">
+            <form action="addgoodsfinally.do" method="post" enctype="multipart/form-data">
                 <table width="450px">
                     <tr>
                         <td>商品名称:</td>
@@ -68,16 +68,10 @@
                     <tr>
                         <td>所属分类:</td>
                         <td>
-                            <%--  <select name="categorylevel1id">
-                                  <c:forEach items="" var="">
-                                  <option values=""></option>
-                                  </c:forEach>
-                              </select>--%>
                             <select name="categorylevel1id">
-                                <option value="548">化妆品</option>
-                                <option value="628">家用商品</option>
-                                <option value="670">电子商品</option>
-                                <option value="660">进口食品,生鲜</option>
+                                <c:forEach items="${epcategories }" var="epcategorie">
+                                    <option value="${epcategorie.id  }">${epcategorie.name }</option>
+                                </c:forEach>
                             </select>
                         </td>
                     </tr>
@@ -105,7 +99,9 @@
                     <tr>
                         <td colspan="2">
                             <center><input type="submit" value="添加" style="background-color: green"
-                                           onclick="return confirm('确认新增这个商品么?')"/></center>
+                                           onclick="return confirm('确认新增这个商品么?')"/>
+                                <input type="button" value="返回" onclick="history.back(-1)"/>
+                            </center>
                         </td>
                     </tr>
                 </table>

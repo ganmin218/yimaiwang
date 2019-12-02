@@ -85,28 +85,24 @@
             </c:forEach>
         </table>
     </div>
-    <%--<div>
-        <table cellspacing="0" cellpadding="0" style="margin-left:30px;text-align: center;">
-            <tr style="background-color: ghostwhite">
-                <td>编号</td>
-                <td>姓名</td>
-                <td>留言内容</td>
-                <td>状态</td>
-                <td>操作</td>
-            </tr>
-            <c:forEach items="${ecomments }" var="ecomment">
-                <tr>
-                    <td>${ecomment.id }</td>
-                    <td>${ecomment.nickname }</td>
-                    <td>${ecomment.content }</td>
-                    <td>${ecomment.reply==null?"":"已回复" }</td>
-                    <td><a href="addreply.do?id=${ecomment.id }">回复</a>&nbsp;&nbsp;
-                        <a href="deletereply.do?id=${ecomment.id }">删除</a>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>--%>
+
+    <div style="float:right;font-size: 13px">
+        <p>
+            <span style="float: right">共&ensp;${totalPage }&ensp;条记录&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;${ye }/${zonye }页
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            <br>
+            <span style="float: right"><a href="menextye.do">下一页</a>&ensp;&ensp;
+                <a href="melastye.do">上一页</a>&ensp;&ensp;<a href="megofinal.do">最后一页</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+        </p>
+        <form name="form1" action="metiaoye.do" method="post">
+        <span>跳转至&ensp;&ensp;<input type="text" name="ye"/>&ensp;页&ensp;&ensp;&ensp;&ensp;
+        <input type="submit" value="GO"/>
+        </span>
+        </form>
+    </div>
 
 </div>
 

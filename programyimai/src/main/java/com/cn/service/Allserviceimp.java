@@ -67,6 +67,11 @@ public class Allserviceimp implements Allservice {
         return ecommentMapper.updateByPrimaryKeySelective(record);
     }
 
+    //根据页面编号查评论
+    public List<Ecomment> selectEcommentByPage(Integer ye) {
+        return ecommentMapper.selectEcommentByPage(ye);
+    }
+
     //显示用户左侧
     public List<Leibie> selectLeibie() {
         return leibieMapper.selectLeibie();
@@ -100,6 +105,10 @@ public class Allserviceimp implements Allservice {
         return enewsMapper.selectByPrimaryKey(id);
     }
 
+    //新闻管理 根据页面查询
+    public List<Enews> selectEnewsByPage(Integer ye) {
+        return enewsMapper.selectEnewsByPage(ye);
+    }
     //用户管理
     public List<Euser> selectAlluser() {
         return euserMapper.selectAlluser();
@@ -120,6 +129,10 @@ public class Allserviceimp implements Allservice {
         return euserMapper.deleteByPrimaryKey(id);
     }
 
+    //根据页面显示
+    public List<Euser> selectuserByPage(Integer ye) {
+        return euserMapper.selectuserByPage(ye);
+    }
     //新闻管理,修改新闻
     public int updatenewsByPrimaryKeySelective(Enews record) {
         return enewsMapper.updateByPrimaryKeySelective(record);
@@ -141,7 +154,25 @@ public class Allserviceimp implements Allservice {
         return eproductMapper.insertSelective(record);
     }
 
+    //修改商品先查当前商品
+    public Eproduct selectproductByPrimaryKey(Integer id) {
+        return eproductMapper.selectByPrimaryKey(id);
+    }
+
+    public int updateproductByPrimaryKeySelective(Eproduct record) {
+        return eproductMapper.updateByPrimaryKeySelective(record);
+    }
+
+    //删除商品
+    public int deleteproductByPrimaryKey(Integer id) {
+        return eproductMapper.deleteByPrimaryKey(id);
+    }
+
     //分类管理
+    //类别分页查询
+    public List<Leibie> selectLeibieByPage(Integer ye) {
+        return leibieMapper.selectLeibieByPage(ye);
+    }
     //查看单条分类
     public Leibie selectleibieByPrimaryKey(Integer id) {
         return leibieMapper.selectByPrimaryKey(id);
@@ -174,5 +205,10 @@ public class Allserviceimp implements Allservice {
 
     public int insertEpcategorySelective(Epcategory record) {
         return epcategoryMapper.insertSelective(record);
+    }
+
+    //查全部二级目录
+    public List<Epcategory> selectAllEpcategory() {
+        return epcategoryMapper.selectAllEpcategory();
     }
 }

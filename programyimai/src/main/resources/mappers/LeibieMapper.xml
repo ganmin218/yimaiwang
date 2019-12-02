@@ -31,6 +31,12 @@
         from leibie
         where name = #{name,jdbcType=VARCHAR}
     </select>
+    <!--类别分页查询selectLeibieByPage-->
+    <select id="selectLeibieByPage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from leibie limit #{ye },2;
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from leibie

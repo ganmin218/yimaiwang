@@ -142,4 +142,14 @@ public class Eproduct {
         this.categorylevel1id = categorylevel1id;
         this.filename = filename;
     }
+
+    public Eproduct(Integer id, String name, String description, Float price, Integer stock, Integer categorylevel1id, String filename) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.categorylevel1id = categorylevel1id;
+        this.filename = filename;
+    }
 }

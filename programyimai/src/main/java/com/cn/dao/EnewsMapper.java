@@ -19,6 +19,8 @@ public interface EnewsMapper {
 
     //显示新闻
     List<Enews> selectEnews();
-    //新闻管理
+
+    //新闻管理 根据页面查询
+    List<Enews> selectEnewsByPage(Integer ye);
 
 }

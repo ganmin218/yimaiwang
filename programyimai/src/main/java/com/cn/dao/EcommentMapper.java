@@ -19,4 +19,7 @@ public interface EcommentMapper {
 
     List<Ecomment> selectEcomment();
 
+    //根据页面编号查
+    List<Ecomment> selectEcommentByPage(Integer ye);
+
 }

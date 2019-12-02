@@ -25,7 +25,12 @@
         <include refid="Base_Column_List"/>
         from enews order by createTime desc
     </select>
-
+    <!--selectEnewsByPage根据页面查询-->
+    <select id="selectEnewsByPage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from enews limit #{ye },8;
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from enews

@@ -18,4 +18,7 @@ public interface EpcategoryMapper {
     int updateByPrimaryKey(Epcategory record);
 
     List<Epcategory> selectEpcategoryByParentId(Integer id);
+
+    //查全部
+    List<Epcategory> selectAllEpcategory();
 }

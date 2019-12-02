@@ -38,6 +38,7 @@
 
         .d1 {
             width: 80px;
+            height: 120px;
             float: left;
             overflow: hidden;
             margin-left: 30px;
@@ -54,6 +55,13 @@
         a {
             text-decoration: none;
         }
+
+        #ig1 {
+            position: absolute;
+            width: 250px;
+            height: 220px;
+            display: none;
+        }
     </style>
 </head>
 
@@ -64,23 +72,15 @@
         <hr style="border: 1px solid orange">
     </div>
     <div>
-        <%-- <div>
-             <c:forEach items="${sproducts }" var="sproduct">
-
-             </c:forEach>
-         </div>--%>
         <div id="a3">
+            <img id="ig1"/>
             <c:forEach items="${eproducts }" var="eproduct">
                 <div class="d1">
-                    <a href="productdetail.do?id=${eproduct.id }"><img src="img/left-dd.png" class="img">
-                        第三方萨芬的
-                        ￥25.6</a>
+                    <a href="details.do?id=${eproduct.id }"><img name="ig" src="upload/${eproduct.filename }"
+                                                                 class="img">
+                            ${eproduct.name }
+                            ${eproduct.price }</a>
                 </div>
-                <%--<div class="d1">--%>
-                <%--<a href=""><img src="upload/${sproduct.filename }" class="img">--%>
-                <%--${sproduct.name }--%>
-                <%--${sproduct.price }</a>--%>
-                <%--</div>--%>
 
             </c:forEach>
         </div>
@@ -106,6 +106,15 @@
     </div>
 
     <script type="text/javascript">
+        $(function () {
+            var x = 160, y = 40;
+            $("img[name]").mouseover(function (e) {
+                $("#ig1").attr("src", this.src).css({"top": (e.pageY + y) + "px", "left": (e.pageX = x) + "px"}).show();
+            });
+            $("img[name]").mouseout(function () {
+                $("#ig1").hide();
+            });
+        });
     </script>
 </div>
 </body>

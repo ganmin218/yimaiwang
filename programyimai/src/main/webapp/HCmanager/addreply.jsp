@@ -62,7 +62,8 @@
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;<textarea name="reply" rows="5" cols="30"></textarea></td>
             </tr>
             <tr>
-                <td colspan="2"><input type="submit" value="更新" style="background-color: darkblue"/></td>
+                <td colspan="2"><input type="submit" value="更新" style="background-color: darkblue"/>
+                    <input type="button" value="返回" onclick="history.back(-1)"/></td>
             </tr>
         </table>
     </form>

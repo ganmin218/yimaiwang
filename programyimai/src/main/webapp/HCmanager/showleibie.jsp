@@ -98,12 +98,12 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
             <br>
-            <span style="float: right"><a href="snextye.do">下一页</a>&ensp;&ensp;
-                <a href="slastye.do">上一页</a>&ensp;&ensp;<a href="sgofinal.do">最后一页</a>
+            <span style="float: right"><a href="leinextye.do">下一页</a>&ensp;&ensp;
+                <a href="leilastye.do">上一页</a>&ensp;&ensp;<a href="leigofinal.do">最后一页</a>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
         </p>
-        <form name="form1" action="stiaoye.do" method="post">
+        <form name="form1" action="leitiaoye.do" method="post">
         <span>跳转至&ensp;&ensp;<input type="text" name="ye"/>&ensp;页&ensp;&ensp;&ensp;&ensp;
         <input type="submit" value="GO"/>
         </span>

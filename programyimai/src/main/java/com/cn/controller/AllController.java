@@ -35,6 +35,7 @@ public class AllController {
             return "login";
         } else {
             session.setAttribute("user", selectuser);
+            session.setAttribute("username", selectuser.getLoginname());
             //显示左边
             List<Leibie> leibies = allservice.selectLeibie();
             HashMap<List<Epcategory>, String> map = new HashMap<List<Epcategory>, String>();
@@ -53,7 +54,7 @@ public class AllController {
             int totalPage = selectproduct.size();
             int zonye = totalPage % 8 == 0 ? (totalPage / 8) : (totalPage / 8 + 1);
             int ye = 1;
-            List<Eproduct> sproducts = allservice.selectproductsBypage(ye - 0);
+            List<Eproduct> sproducts = allservice.selectproductsBypage(ye - 1);
             session.setAttribute("sproducts", sproducts);
             session.setAttribute("totalPage", totalPage);
             session.setAttribute("zonye", zonye);
@@ -70,6 +71,12 @@ public class AllController {
         return "login";
     }
 
+    //注销用户
+    @RequestMapping("/zhuxiao")
+    public String zhuxiao(HttpSession session, HttpServletRequest request) {
+        session.invalidate();
+        return goshouye(session, request);
+    }
     //查看留言页面
     @RequestMapping("/message")
     public String message(HttpSession session, HttpServletRequest request) {
@@ -93,6 +100,29 @@ public class AllController {
     public String goshouye(HttpSession session, HttpServletRequest request) {
         String leftmessage = null;
         session.setAttribute("leftmessage", leftmessage);
+        //显示左边
+        List<Leibie> leibies = allservice.selectLeibie();
+        HashMap<List<Epcategory>, String> map = new HashMap<List<Epcategory>, String>();
+        //request存数据取不到
+        for (Leibie leibie : leibies) {
+            List<Epcategory> epcategories = allservice.selectEpcategoryByParentId(leibie.getId());
+            String name = leibie.getName();
+            map.put(epcategories, name);
+        }
+        session.setAttribute("map", map);
+        //显示右边
+        List<Enews> enews = allservice.selectEnews();
+        session.setAttribute("enews", enews);
+        //显示产品
+        List<Eproduct> selectproduct = allservice.selectproducts();
+        int totalPage = selectproduct.size();
+        int zonye = totalPage % 8 == 0 ? (totalPage / 8) : (totalPage / 8 + 1);
+        int ye = 1;
+        List<Eproduct> sproducts = allservice.selectproductsBypage(ye - 1);
+        session.setAttribute("sproducts", sproducts);
+        session.setAttribute("totalPage", totalPage);
+        session.setAttribute("zonye", zonye);
+        session.setAttribute("ye", ye);
         return "shouye";
     }
 
@@ -131,13 +161,12 @@ public class AllController {
 
     //显示showproduct根据二级目录
     @RequestMapping("/showproduct")
-    public String showproduct(HttpSession session, HttpServletRequest request, Integer id, Integer ye) {
+    public String showproduct(HttpSession session, HttpServletRequest request, Integer id) {
         List<Eproduct> eproduct = allservice.selectproductsByEpcategoryId(id);
         int totalPage = eproduct.size();
         int zonye = totalPage % 8 == 0 ? (totalPage / 8) : (totalPage / 8 + 1);
-        ye = 1;
-        List<Eproduct> eproducts = allservice.selectproductsByEpcategoryIdpage(id, (ye - 0));
-        System.out.println(eproducts);
+        int ye = 1;
+        List<Eproduct> eproducts = allservice.selectproductsByEpcategoryIdpage(id, (ye - 1));
         request.setAttribute("eproducts", eproducts);
         session.setAttribute("totalPage", totalPage);
         session.setAttribute("zonye", zonye);
@@ -145,6 +174,24 @@ public class AllController {
         session.setAttribute("epcategoryId", id);
         return "showproduct";
     }
+
+    //查看商品详情
+    @RequestMapping("/details")
+    public String details(HttpSession session, HttpServletRequest request, Integer id) {
+        Eproduct eproduct = allservice.selectproductByPrimaryKey(id);
+        request.setAttribute("eproduct", eproduct);
+        return "details";
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -158,7 +205,14 @@ public class AllController {
     //查看留言页面
     @RequestMapping("/amessage")
     public String amassage(HttpSession session, HttpServletRequest request) {
-        List<Ecomment> ecomments = allservice.selectEcomment();
+        List<Ecomment> ecomment = allservice.selectEcomment();
+        int totalPage = ecomment.size();
+        int zonye = totalPage % 8 == 0 ? (totalPage / 8) : (totalPage / 8 + 1);
+        int ye = 1;
+        List<Ecomment> ecomments = allservice.selectEcommentByPage(ye - 1);
+        session.setAttribute("totalPage", totalPage);
+        session.setAttribute("zonye", zonye);
+        session.setAttribute("ye", ye);
         request.setAttribute("ecomments", ecomments);
         return "HCmanager/amessage";
     }
@@ -197,7 +251,14 @@ public class AllController {
     //showuser用户管理显示
     @RequestMapping("/showuser")
     public String showuser(HttpSession session, HttpServletRequest request) {
-        List<Euser> eusers = allservice.selectAlluser();
+        List<Euser> euser = allservice.selectAlluser();
+        int totalPage = euser.size();
+        int zonye = totalPage % 8 == 0 ? (totalPage / 8) : (totalPage / 8 + 1);
+        int ye = 1;
+        List<Euser> eusers = allservice.selectuserByPage(ye - 1);
+        session.setAttribute("totalPage", totalPage);
+        session.setAttribute("zonye", zonye);
+        session.setAttribute("ye", ye);
         request.setAttribute("eusers", eusers);
         return "HCmanager/showuser";
     }
@@ -235,7 +296,14 @@ public class AllController {
     //selectnews查看新闻
     @RequestMapping("/selectnews")
     public String selectnews(HttpSession session, HttpServletRequest request) {
-        List<Enews> enew = allservice.selectEnews();
+        List<Enews> enewee = allservice.selectEnews();
+        int totalPage = enewee.size();
+        int zonye = totalPage % 8 == 0 ? (totalPage / 8) : (totalPage / 8 + 1);
+        int ye = 1;
+        List<Enews> enew = allservice.selectEnewsByPage(ye - 1);
+        session.setAttribute("totalPage", totalPage);
+        session.setAttribute("zonye", zonye);
+        session.setAttribute("ye", ye);
         request.setAttribute("enew", enew);
         return "HCmanager/shownews";
     }
@@ -281,14 +349,76 @@ public class AllController {
         int totalPage = selectproduct.size();
         int zonye = totalPage % 8 == 0 ? (totalPage / 8) : (totalPage / 8 + 1);
         int ye = 1;
-        List<Eproduct> products = allservice.selectproductsBypage(ye - 0);
+        List<Eproduct> products = allservice.selectproductsBypage(ye - 1);
         request.setAttribute("products", products);
+        session.setAttribute("totalPage", totalPage);
+        session.setAttribute("zonye", zonye);
+        session.setAttribute("ye", ye);
         return "HCmanager/showgoods";
+    }
+
+    //管理员修改商品updategoods
+    @RequestMapping("/updategoods")
+    public String updategoods(HttpSession session, HttpServletRequest request, Integer id) {
+        Eproduct eproduct = allservice.selectproductByPrimaryKey(id);
+        request.setAttribute("eproduct", eproduct);
+        List<Epcategory> epcategories = allservice.selectAllEpcategory();
+        request.setAttribute("epcategories", epcategories);
+        return "HCmanager/updategoods";
+    }
+
+    //updategoodsfinally修改商品
+    @RequestMapping("/updategoodsfinally")
+    public String updategoodsfinally(HttpServletRequest request, @RequestParam MultipartFile filename, HttpSession session) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        int categorylevel1id = Integer.parseInt(request.getParameter("categorylevel1id"));
+        Float price = Float.parseFloat(request.getParameter("price"));
+        int stock = Integer.parseInt(request.getParameter("stock"));
+        //MultipartFile处理上传文件的对象
+        System.out.println("执行上传文件操作!");
+        //获取文件上传的位置
+        //String basePath = session.getServletContext().getRealPath("upload");
+        String basePath = "I:\\IDEAprogrammerTest\\Yimainet\\yimai-common\\programyimai\\src\\main\\webapp\\upload";
+        //以日期创建二级文件目录
+        String datePath = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        //判断此文件是否存在,不存在就重新创建
+        File file = new File(basePath, datePath);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        //获取文件名,并且拼接文件名
+        String fname = filename.getOriginalFilename();
+        //获取一个随机序列,防止不同用户文件名一样(文件名字一样的话会被新的覆盖),UUID.randomUUID()是获取随机序列的方法;
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        fname = uuid + "-" + fname;
+        //对文件进行保存
+        try {
+            filename.transferTo(new File(file, fname));
+            Eproduct product =
+                    new Eproduct(id, name, description, price, stock, categorylevel1id, datePath + "/" + fname);
+            allservice.updateproductByPrimaryKeySelective(product);
+        } catch (IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return showgoods(session, request);
     }
 
     //addgoods管理员新增商品
     @RequestMapping("/addgoods")
-    public String addgoods(HttpServletRequest request, @RequestParam MultipartFile filename, HttpSession session) {
+    public String deletegoods(HttpSession session, HttpServletRequest request) {
+        List<Epcategory> epcategories = allservice.selectAllEpcategory();
+        request.setAttribute("epcategories", epcategories);
+        return "HCmanager/addgoods";
+    }
+
+    @RequestMapping("/addgoodsfinally")
+    public String addgoodsfinally(HttpServletRequest request, @RequestParam MultipartFile filename, HttpSession session) {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         int categorylevel1id = Integer.parseInt(request.getParameter("categorylevel1id"));
@@ -324,9 +454,14 @@ public class AllController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return showgoods(session, request);
+    }
 
-        //return showgoods(session,request);
-        return "central";
+    //管理员删除商品deletegoods
+    @RequestMapping("/deletegoods")
+    public String deletegoods(HttpSession session, HttpServletRequest request, Integer id) {
+        allservice.deleteproductByPrimaryKey(id);
+        return showgoods(session, request);
     }
 
 
@@ -334,7 +469,14 @@ public class AllController {
     //查看分类showleibie
     @RequestMapping("/showleibie")
     public String showleibie(HttpSession session, HttpServletRequest request) {
-        List<Leibie> leibies = allservice.selectLeibie();
+        List<Leibie> lei = allservice.selectLeibie();
+        int totalPage = lei.size();
+        int zonye = totalPage % 2 == 0 ? (totalPage / 2) : (totalPage / 2 + 1);
+        int ye = 1;
+        List<Leibie> leibies = allservice.selectLeibieByPage(ye - 1);
+        session.setAttribute("totalPage", totalPage);
+        session.setAttribute("zonye", zonye);
+        session.setAttribute("ye", ye);
         HashMap<List<Epcategory>, Leibie> mapleibie = new HashMap<List<Epcategory>, Leibie>();
         for (Leibie leibie : leibies) {
             List<Epcategory> epcategories = allservice.selectEpcategoryByParentId(leibie.getId());
@@ -371,6 +513,8 @@ public class AllController {
     public String updatemulu(HttpSession session, HttpServletRequest request, Integer id) {
         Epcategory epcategory = allservice.selectEpcategoryByPrimaryKey(id);
         request.setAttribute("epcategory", epcategory);
+        List<Leibie> leibies = allservice.selectLeibie();
+        request.setAttribute("leibies", leibies);
         return "HCmanager/updatemulu";
     }
 
@@ -388,9 +532,16 @@ public class AllController {
         return showleibie(session, request);
     }
 
-    //添加分类栏目
+    //添加分类栏目,先找到一级栏目
     @RequestMapping("/addleibie")
-    public String addleibie(HttpSession session, HttpServletRequest request, String fumulu, String name) {
+    public String addleibie(HttpSession session, HttpServletRequest request) {
+        List<Leibie> leibies = allservice.selectLeibie();
+        request.setAttribute("leibies", leibies);
+        return "HCmanager/addleibie";
+    }
+
+    @RequestMapping("/addleibiefinally")
+    public String addleibiefinally(HttpSession session, HttpServletRequest request, String fumulu, String name) {
         int id = Integer.parseInt(fumulu);
         if (id == 0) {
             Leibie leibie = new Leibie(name);
@@ -460,6 +611,7 @@ public class AllController {
         return "showproduct";
     }
 
+
     //首页start商品分页--------------------------------------------------------
     @RequestMapping("/snextye")
     public String snextye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
@@ -510,6 +662,283 @@ public class AllController {
         request.setAttribute("products", products);
         return "products";
     }
+
+
+    //管理员管理商品分页--------------------------------------------------------
+    @RequestMapping("/adnextye")
+    public String adnextye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") + 1;
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Eproduct> products = allservice.selectproductsBypage((ye - 1) * 8);
+        request.setAttribute("products", products);
+        return "HCmanager/showgoods";
+    }
+
+    @RequestMapping("/adlastye")
+    public String adlastye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") - 1;
+        if (ye < 1) {
+            ye = 1;
+        }
+        session.setAttribute("ye", ye);
+        List<Eproduct> products = allservice.selectproductsBypage((ye - 1) * 8);
+        request.setAttribute("products", products);
+        return "HCmanager/showgoods";
+    }
+
+    @RequestMapping("/adgofinal")
+    public String adgofinal(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("zonye");
+        session.setAttribute("ye", ye);
+        List<Eproduct> products = allservice.selectproductsBypage((ye - 1) * 8);
+        request.setAttribute("products", products);
+        return "HCmanager/showgoods";
+    }
+
+    //跳转到相应页面
+    @RequestMapping("/adtiaoye")
+    public String adtiaoye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = Integer.parseInt(request.getParameter("ye"));
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye < 1) {
+            ye = 1;
+        } else if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Eproduct> products = allservice.selectproductsBypage((ye - 1) * 8);
+        request.setAttribute("products", products);
+        return "HCmanager/showgoods";
+    }
+
+    //管理员管理留言分页--------------------------------------------------------
+    @RequestMapping("/menextye")
+    public String menextye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") + 1;
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Ecomment> ecomments = allservice.selectEcommentByPage((ye - 1) * 8);
+        request.setAttribute("ecomments", ecomments);
+        return "HCmanager/amessage";
+    }
+
+    @RequestMapping("/melastye")
+    public String melastye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") - 1;
+        if (ye < 1) {
+            ye = 1;
+        }
+        session.setAttribute("ye", ye);
+        List<Ecomment> ecomments = allservice.selectEcommentByPage((ye - 1) * 8);
+        request.setAttribute("ecomments", ecomments);
+        return "HCmanager/amessage";
+    }
+
+    @RequestMapping("/megofinal")
+    public String megofinal(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("zonye");
+        session.setAttribute("ye", ye);
+        List<Ecomment> ecomments = allservice.selectEcommentByPage((ye - 1) * 8);
+        request.setAttribute("ecomments", ecomments);
+        return "HCmanager/amessage";
+    }
+
+    //跳转到相应页面
+    @RequestMapping("/metiaoye")
+    public String metiaoye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = Integer.parseInt(request.getParameter("ye"));
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye < 1) {
+            ye = 1;
+        } else if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Ecomment> ecomments = allservice.selectEcommentByPage((ye - 1) * 8);
+        request.setAttribute("ecomments", ecomments);
+        return "HCmanager/amessage";
+    }
+
+    //管理员管理新闻分页--------------------------------------------------------
+    @RequestMapping("/enewsnextye")
+    public String enewsnextye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") + 1;
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Enews> enew = allservice.selectEnewsByPage((ye - 1) * 8);
+        request.setAttribute("enew", enew);
+        return "HCmanager/shownews";
+    }
+
+    @RequestMapping("/enewslastye")
+    public String enewslastye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") - 1;
+        if (ye < 1) {
+            ye = 1;
+        }
+        session.setAttribute("ye", ye);
+        List<Enews> enew = allservice.selectEnewsByPage((ye - 1) * 8);
+        request.setAttribute("enew", enew);
+        return "HCmanager/shownews";
+    }
+
+    @RequestMapping("/enewsgofinal")
+    public String enewsgofinal(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("zonye");
+        session.setAttribute("ye", ye);
+        List<Enews> enew = allservice.selectEnewsByPage((ye - 1) * 8);
+        request.setAttribute("enew", enew);
+        return "HCmanager/shownews";
+    }
+
+    //跳转到相应页面
+    @RequestMapping("/enewstiaoye")
+    public String enewstiaoye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = Integer.parseInt(request.getParameter("ye"));
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye < 1) {
+            ye = 1;
+        } else if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Enews> enew = allservice.selectEnewsByPage((ye - 1) * 8);
+        request.setAttribute("enew", enew);
+        return "HCmanager/shownews";
+    }
+
+    //管理员管理用户分页--------------------------------------------------------
+    @RequestMapping("/usernextye")
+    public String usernextye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") + 1;
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Euser> eusers = allservice.selectuserByPage((ye - 1) * 8);
+        request.setAttribute("eusers", eusers);
+        return "HCmanager/showuser";
+    }
+
+    @RequestMapping("/userlastye")
+    public String userlastye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") - 1;
+        if (ye < 1) {
+            ye = 1;
+        }
+        session.setAttribute("ye", ye);
+        List<Euser> eusers = allservice.selectuserByPage((ye - 1) * 8);
+        request.setAttribute("eusers", eusers);
+        return "HCmanager/showuser";
+    }
+
+    @RequestMapping("/usergofinal")
+    public String usergofinal(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("zonye");
+        session.setAttribute("ye", ye);
+        List<Euser> eusers = allservice.selectuserByPage((ye - 1) * 8);
+        request.setAttribute("eusers", eusers);
+        return "HCmanager/showuser";
+    }
+
+    //跳转到相应页面
+    @RequestMapping("/usertiaoye")
+    public String usertiaoye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = Integer.parseInt(request.getParameter("ye"));
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye < 1) {
+            ye = 1;
+        } else if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Euser> eusers = allservice.selectuserByPage((ye - 1) * 8);
+        request.setAttribute("eusers", eusers);
+        return "HCmanager/showuser";
+    }
+
+    //管理员管理类别分页--------------------------------------------------------
+    @RequestMapping("/leinextye")
+    public String leinextye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") + 1;
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Leibie> leibies = allservice.selectLeibieByPage((ye - 1) * 2);
+        HashMap<List<Epcategory>, Leibie> mapleibie = new HashMap<List<Epcategory>, Leibie>();
+        for (Leibie leibie : leibies) {
+            List<Epcategory> epcategories = allservice.selectEpcategoryByParentId(leibie.getId());
+            mapleibie.put(epcategories, leibie);
+        }
+        request.setAttribute("mapleibie", mapleibie);
+        return "HCmanager/showleibie";
+    }
+
+    @RequestMapping("/leilastye")
+    public String leilastye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") - 1;
+        if (ye < 1) {
+            ye = 1;
+        }
+        session.setAttribute("ye", ye);
+        List<Leibie> leibies = allservice.selectLeibieByPage((ye - 1) * 2);
+        HashMap<List<Epcategory>, Leibie> mapleibie = new HashMap<List<Epcategory>, Leibie>();
+        for (Leibie leibie : leibies) {
+            List<Epcategory> epcategories = allservice.selectEpcategoryByParentId(leibie.getId());
+            mapleibie.put(epcategories, leibie);
+        }
+        request.setAttribute("mapleibie", mapleibie);
+        return "HCmanager/showleibie";
+    }
+
+    @RequestMapping("/leigofinal")
+    public String leigofinal(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("zonye");
+        session.setAttribute("ye", ye);
+        List<Leibie> leibies = allservice.selectLeibieByPage((ye - 1) * 2);
+        HashMap<List<Epcategory>, Leibie> mapleibie = new HashMap<List<Epcategory>, Leibie>();
+        for (Leibie leibie : leibies) {
+            List<Epcategory> epcategories = allservice.selectEpcategoryByParentId(leibie.getId());
+            mapleibie.put(epcategories, leibie);
+        }
+        request.setAttribute("mapleibie", mapleibie);
+        return "HCmanager/showleibie";
+    }
+
+    //跳转到相应页面
+    @RequestMapping("/leitiaoye")
+    public String leiiaoye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = Integer.parseInt(request.getParameter("ye"));
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye < 1) {
+            ye = 1;
+        } else if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Leibie> leibies = allservice.selectLeibieByPage((ye - 1) * 2);
+        HashMap<List<Epcategory>, Leibie> mapleibie = new HashMap<List<Epcategory>, Leibie>();
+        for (Leibie leibie : leibies) {
+            List<Epcategory> epcategories = allservice.selectEpcategoryByParentId(leibie.getId());
+            mapleibie.put(epcategories, leibie);
+        }
+        request.setAttribute("mapleibie", mapleibie);
+        return "HCmanager/showleibie";
+    }
+
 
 
 }

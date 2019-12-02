@@ -62,12 +62,19 @@
                 <td width="300px" rowspan="2"><span style="float: right"><img src="img/easybuy.png"></span></td>
                 <td width="550px" colspan="8"></td>
                 <td width="500px">
-                    <span id="span1"><img src="img/gouwu.png">
+
+                    <span id="span1">
+                         <c:choose>
+                             <c:when test="${!empty user }">
+                                 <%=session.getAttribute("username") %>,您好!&nbsp;&nbsp;
+                             </c:when>
+                         </c:choose>
+                        <img src="img/gouwu.png">
                         <a href="showgouwu.do">购物车</a>&nbsp;&nbsp;
                         <c:choose>
                             <c:when test="${empty user }">
                                 <a href="register.jsp" target="_blank">注册</a>&nbsp;&nbsp;
-                                <a href="login.jsp">登陆</a>&nbsp;&nbsp;
+                                <a href="login.jsp" target="_blank">登陆</a>&nbsp;&nbsp;
                             </c:when>
                             <c:otherwise>
                                 <a href="zhuxiao.do" target="_blank">注销&nbsp;&nbsp;</a>
@@ -84,7 +91,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td>首页</td>
+                <td><a href="goshouye.do" target="_blank">首页</a></td>
                 <td>图书</td>
                 <td>百货</td>
                 <td>品牌</td>

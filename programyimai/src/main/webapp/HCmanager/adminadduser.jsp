@@ -136,7 +136,9 @@
                     <tr>
                         <td colspan="2">
                             <center><input type="submit" value="提交" style="background-color: green"
-                                           onclick="return confirm('确认新增这个用户么?')"/></center>
+                                           onclick="return confirm('确认新增这个用户么?')"/>
+                                <input type="button" value="返回" onclick="history.back(-1)"/>
+                            </center>
                         </td>
                     </tr>
                 </table>

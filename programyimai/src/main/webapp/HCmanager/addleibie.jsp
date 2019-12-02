@@ -53,17 +53,16 @@
     </div>
     <div id="div2">
         <center>
-            <form action="addleibie.do" method="post">
+            <form action="addleibiefinally.do" method="post">
                 <table width="450px">
                     <tr>
                         <td>父目录:</td>
                         <td>
                             <select name="fumulu">
                                 <option value="0">根目录</option>
-                                <option value="1">电器</option>
-                                <option value="2">生活用品</option>
-                                <option value="3">服装</option>
-                                <option value="4">化妆品</option>
+                                <c:forEach items="${leibies }" var="leibie">
+                                    <option value="${leibie.id }">${leibie.name }</option>
+                                </c:forEach>
                             </select>
                         </td>
                     </tr>
@@ -76,7 +75,9 @@
                     <tr>
                         <td colspan="2">
                             <center><input type="submit" value="提交" style="background-color: green"
-                                           onclick="return confirm('确认添加这条信息么?')"/></center>
+                                           onclick="return confirm('确认添加这条信息么?')"/>
+                                <input type="button" value="返回" onclick="history.back(-1)"/>
+                            </center>
                         </td>
                     </tr>
                 </table>

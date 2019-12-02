@@ -19,6 +19,12 @@
         from epcategory
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <!--selectAllEpcategory查全部的-->
+    <select id="selectAllEpcategory" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from epcategory
+    </select>
 
     <!--selectEpcategoryByParentId查找二级目录-->
     <select id="selectEpcategoryByParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer">

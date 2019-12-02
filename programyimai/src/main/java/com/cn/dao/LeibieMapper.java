@@ -20,4 +20,7 @@ public interface LeibieMapper {
     List<Leibie> selectLeibie();
 
     Leibie selectLeibieByName(String name);
+
+    //类别分页查询
+    List<Leibie> selectLeibieByPage(Integer ye);
 }

@@ -21,4 +21,7 @@ public interface EuserMapper {
 
     List<Euser> selectAlluser();
 
+    //根据页面显示
+    List<Euser> selectuserByPage(Integer ye);
+
 }
