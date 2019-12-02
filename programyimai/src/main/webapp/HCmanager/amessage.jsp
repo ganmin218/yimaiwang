@@ -91,7 +91,6 @@
             <span style="float: right">共&ensp;${totalPage }&ensp;条记录&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;${ye }/${zonye }页
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <br>
             <span style="float: right"><a href="menextye.do">下一页</a>&ensp;&ensp;
                 <a href="melastye.do">上一页</a>&ensp;&ensp;<a href="megofinal.do">最后一页</a>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

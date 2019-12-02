@@ -59,28 +59,26 @@
 <div id="div2">
     <div id="div3">
         <br>
-        <span><img src="../img/aright-top.png"><b>用户管理</b></span>
+        <span><img src="../img/aright-top.png"><b>订单管理</b></span>
     </div>
     <div id="a3">
         <table cellspacing="0" cellpadding="0" style="width: 800px">
             <tr style="background-color: #FFEB99;height: 20px;">
-                <th class="q1">用户名</th>
-                <th class="q1">真实姓名</th>
-                <th class="q1">性别</th>
-                <th class="q1">Email</th>
-                <th class="q1">手机</th>
+                <th class="q1">编号</th>
+                <th class="q1">姓名</th>
+                <th class="q1" width="500px">发货地址</th>
+                <th class="q1">状态</th>
                 <th>操作</th>
             </tr>
-            <c:forEach items="${eusers}" var="euser">
+            <c:forEach items="${eodetails }" var="eodetail">
                 <tr style="height: 20px;">
-                    <td class="q1" style="text-align: center">${euser.loginname }</td>
-                    <td class="q1" style="text-align: center">${euser.username }</td>
-                    <td class="q1" style="text-align: center">${euser.sex==1?"男":"女" }</td>
-                    <td class="q1" style="text-align: center">${euser.email }</td>
-                    <td class="q1" style="text-align: center">${euser.mobile }</td>
+                    <td class="q1" style="text-align: center">${eodetail.id }</td>
+                    <td class="q1" style="text-align: center">${eodetail.loginname }</td>
+                    <td class="q1">${eodetail.useraddress }</td>
+                    <td class="q1" style="text-align: center">${eodetail.status }</td>
                     <td class="q2" style="text-align: center">
-                        <a href="updateuser.do?id=${euser.id }">修改</a>&nbsp;&nbsp;
-                        <a href="deleteuser.do?id=${euser.id }" onclick="return confirm('确认删除?')">删除</a>
+                        <a href="updateeodetails.do?id=${eodetail.id }">修改</a>&nbsp;&nbsp;
+                        <a href="deleteeodetails.do?id=${eodetail.id }" onclick="return confirm('确认删除?')">删除</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -92,18 +90,17 @@
             <span style="float: right">共&ensp;${totalPage }&ensp;条记录&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;${ye }/${zonye }页
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <span style="float: right"><a href="usernextye.do">下一页</a>&ensp;&ensp;
-                <a href="userlastye.do">上一页</a>&ensp;&ensp;<a href="usergofinal.do">最后一页</a>
+            <span style="float: right"><a href="ordernextye.do">下一页</a>&ensp;&ensp;
+                <a href="orderlastye.do">上一页</a>&ensp;&ensp;<a href="ordergofinal.do">最后一页</a>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
         </p>
-        <form name="form1" action="usertiaoye.do" method="post">
+        <form name="form1" action="ordertiaoye.do" method="post">
         <span>跳转至&ensp;&ensp;<input type="text" name="ye"/>&ensp;页&ensp;&ensp;&ensp;&ensp;
         <input type="submit" value="GO"/>
         </span>
         </form>
     </div>
-
 </div>
 
 <script type="text/javascript">

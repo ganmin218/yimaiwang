@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -91,7 +90,6 @@ public class AllController {
     @RequestMapping("/adminshouye")
     public String adminshouye(HttpSession session, HttpServletRequest request, String leftmessage) {
         session.setAttribute("leftmessage", leftmessage);
-        System.out.println(leftmessage);
         return "HCmanager/adminshouye";
     }
 
@@ -129,14 +127,19 @@ public class AllController {
     //添加留言
     @RequestMapping("/addcontent")
     public String addcontent(HttpSession session, HttpServletRequest request, String nickname, String content) {
-        Date d = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String now = df.format(d);
-        Ecomment ecomment = new Ecomment(content, now, nickname);
-        allservice.insertSelective(ecomment);
-        List<Ecomment> ecomments = allservice.selectEcomment();
-        request.setAttribute("ecomments", ecomments);
-        return "reply";
+        Euser user = (Euser) session.getAttribute("user");
+        if (user == null) {
+            return "login";
+        } else {
+            Date d = new Date();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String now = df.format(d);
+            Ecomment ecomment = new Ecomment(content, now, nickname);
+            allservice.insertSelective(ecomment);
+            List<Ecomment> ecomments = allservice.selectEcomment();
+            request.setAttribute("ecomments", ecomments);
+            return "reply";
+        }
     }
 
     //leibie查看二级目录
@@ -182,6 +185,130 @@ public class AllController {
         request.setAttribute("eproduct", eproduct);
         return "details";
     }
+
+    //加入购物车
+    @RequestMapping("/addgouwu")
+    public String addgouwu(HttpSession session, HttpServletRequest request, Integer id) {
+        //判断用户是否登录
+        Euser user = (Euser) session.getAttribute("user");
+        if (user == null) {
+            return "login";
+        } else {
+            Eproduct eproduct = allservice.selectproductByPrimaryKey(id);
+            //根据商品id判断购物车是否有此物品
+            Eorder eorder1 = allservice.selectByproductid(id, user.getId());
+            if (eorder1 == null) {
+                //购物车没有就新建
+                Eorder eorder = new Eorder(eproduct.getId(), user.getId(), eproduct.getName(), eproduct.getFilename(),
+                        1, user.getLoginname(), eproduct.getPrice());
+                allservice.insertorderSelective(eorder);
+                return showgouwu(session, request);
+            } else {
+                //购物车有就加一件
+                Eorder eorder2 = new Eorder(eorder1.getId(), eorder1.getQuantity() + 1, eorder1.getCost() + eproduct.getPrice());
+                allservice.updateorderByPrimaryKeySelective(eorder2);
+                return showgouwu(session, request);
+            }
+        }
+    }
+
+    //查看购物车showgouwu
+    @RequestMapping("/showgouwu")
+    public String showgouwu(HttpSession session, HttpServletRequest request) {
+        //判断用户是否登录
+        Euser user = (Euser) session.getAttribute("user");
+        if (user == null) {
+            return "login";
+        } else {
+            List<Eorder> eorder = allservice.selectallorderByuserid(user.getId());
+            int totalPage = eorder.size();
+            int zonye = totalPage % 3 == 0 ? (totalPage / 3) : (totalPage / 3 + 1);
+            int ye = 1;
+            List<Eorder> eorders = allservice.selectorderByuseridPage(user.getId(), (ye - 1));
+            session.setAttribute("totalPage", totalPage);
+            session.setAttribute("zonye", zonye);
+            session.setAttribute("ye", ye);
+            request.setAttribute("eorders", eorders);
+            return "showgouwu";
+        }
+    }
+
+    //删除购物车的东西deleteorder
+    @RequestMapping("/deleteorder")
+    public String deleteorder(HttpSession session, HttpServletRequest request, Integer id) {
+        allservice.deleteorderByPrimaryKey(id);
+        return showgouwu(session, request);
+    }
+
+    //updateorder修改购物车的内容
+    @RequestMapping("/updateorder")
+    public String updateorder(HttpSession session, HttpServletRequest request, Integer id) {
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        //找到订单
+        Eorder eorder = allservice.selectorderByPrimaryKey(id);
+        //找到商品单价
+        Eproduct eproduct = allservice.selectproductByPrimaryKey(eorder.getProductid());
+        Float cost = eproduct.getPrice() * quantity;
+        //修改购物车信息
+        Eorder eorder11 = new Eorder(id, quantity, cost);
+        allservice.updateorderByPrimaryKeySelective(eorder11);
+        return showgouwu(session, request);
+    }
+
+    //生成订单createEodetail
+    @RequestMapping("/createEodetail")
+    public String createEodetail(HttpSession session, HttpServletRequest request, String idss) {
+        String[] id = idss.split(",");
+        float cost = 0;
+        String details = "";
+        for (String s : id) {
+            //找到购物车中购买物品的对应order的id录入详情
+            int id1 = Integer.parseInt(s);
+            Eorder eorderbuy = allservice.selectorderByPrimaryKey(id1);
+            cost = cost + eorderbuy.getCost();
+            details = details + "编号:" + eorderbuy.getId() + "  产品名称:" + eorderbuy.getProductname() + "  产品数量:" + eorderbuy.getQuantity() + "  产品小计:" + eorderbuy.getCost() + ";";
+        }
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        Euser user = (Euser) session.getAttribute("user");
+        Eodetail eodetail = new Eodetail(user.getId(), user.getLoginname(), details, user.getAddress(), new Date(), cost, uuid, "下单", "已支付");
+        allservice.insertEodetailSelective(eodetail);
+        //数据一致性;保证库存减少,购物车订单删除
+        for (String s : id) {
+            //找到购物车中购买物品的对应order的id录入详情
+            int id1 = Integer.parseInt(s);
+            Eorder eorderbuy = allservice.selectorderByPrimaryKey(id1);
+            //产品表减少库存
+            //找到商品
+            Eproduct eproduct = allservice.selectproductByPrimaryKey(eorderbuy.getProductid());
+            //原有的商品库存eproduct.getStock();减去的数量eorderbuy.getQuantity();
+            int stock = eproduct.getStock() - eorderbuy.getQuantity();
+            Eproduct eproduct22 = new Eproduct(eproduct.getId(), stock);
+            //更新产品库存
+            allservice.updateproductByPrimaryKeySelective(eproduct22);
+            //从购物车中删除
+            allservice.deleteorderByPrimaryKey(id1);
+        }
+        return showgouwu(session, request);
+    }
+
+    //查看自己的订单showmybuy
+    @RequestMapping("/showmybuy")
+    public String showmybuy(HttpSession session, HttpServletRequest request) {
+        Euser user = (Euser) session.getAttribute("user");
+        List<Eodetail> eodetail = allservice.selectmyEodetail(user.getId());
+        int totalPage = eodetail.size();
+        int zonye = totalPage % 4 == 0 ? (totalPage / 4) : (totalPage / 4 + 1);
+        int ye = 1;
+        List<Eodetail> eodetails = allservice.selectmyEodetailByPage(user.getId(), (ye - 1));
+        session.setAttribute("totalPage", totalPage);
+        session.setAttribute("zonye", zonye);
+        session.setAttribute("ye", ye);
+        request.setAttribute("eodetails", eodetails);
+        return "showmybuy";
+    }
+
+
+
 
 
 
@@ -553,6 +680,74 @@ public class AllController {
         return showleibie(session, request);
     }
 
+    //订单管理先显示showeodetail
+    @RequestMapping("/showeodetail")
+    public String showeodetail(HttpSession session, HttpServletRequest request) {
+        List<Eodetail> eodetail = allservice.selectAllEodetail();
+        int totalPage = eodetail.size();
+        int zonye = totalPage % 8 == 0 ? (totalPage / 8) : (totalPage / 8 + 1);
+        int ye = 1;
+        List<Eodetail> eodetails = allservice.selectEodetailByPage(ye - 1);
+        session.setAttribute("totalPage", totalPage);
+        session.setAttribute("zonye", zonye);
+        session.setAttribute("ye", ye);
+        request.setAttribute("eodetails", eodetails);
+        return "HCmanager/showeodetail";
+    }
+
+    //管理员删除订单deleteeodetails
+    @RequestMapping("/deleteeodetails")
+    public String deleteeodetails(HttpSession session, HttpServletRequest request, Integer id) {
+        allservice.deleteEodetailByPrimaryKey(id);
+        return showeodetail(session, request);
+    }
+
+    //updateeodetails管理员修改订单
+    @RequestMapping("/updateeodetails")
+    public String updateeodetails(HttpSession session, HttpServletRequest request, Integer id) {
+        Eodetail eodetail = allservice.selectEodetailByPrimaryKey(id);
+        request.setAttribute("eodetail", eodetail);
+        return "HCmanager/updateeodetails";
+    }
+
+    //updateeodetailsfinally管理员修改订单
+    @RequestMapping("/updateeodetailsfinally")
+    public String updateeodetailsfinally(HttpSession session, HttpServletRequest request, Eodetail eodetail) {
+        allservice.updateEodetailByPrimaryKeySelective(eodetail);
+        return showeodetail(session, request);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //left点击商品分页--------------------------------------------------------
     @RequestMapping("/nextye")
@@ -920,7 +1115,7 @@ public class AllController {
 
     //跳转到相应页面
     @RequestMapping("/leitiaoye")
-    public String leiiaoye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public String leitiaoye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
         int ye = Integer.parseInt(request.getParameter("ye"));
         int zonye = (Integer) session.getAttribute("zonye");
         if (ye < 1) {
@@ -937,6 +1132,167 @@ public class AllController {
         }
         request.setAttribute("mapleibie", mapleibie);
         return "HCmanager/showleibie";
+    }
+
+    //管理员管理订单分页--------------------------------------------------------
+    @RequestMapping("/ordernextye")
+    public String ordernextye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") + 1;
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Eodetail> eodetails = allservice.selectEodetailByPage((ye - 1) * 8);
+        request.setAttribute("eodetails", eodetails);
+        return "HCmanager/showeodetail";
+    }
+
+    @RequestMapping("/orderlastye")
+    public String orderlastye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") - 1;
+        if (ye < 1) {
+            ye = 1;
+        }
+        session.setAttribute("ye", ye);
+        List<Eodetail> eodetails = allservice.selectEodetailByPage((ye - 1) * 8);
+        request.setAttribute("eodetails", eodetails);
+        return "HCmanager/showeodetail";
+    }
+
+    @RequestMapping("/ordergofinal")
+    public String ordergofinal(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("zonye");
+        session.setAttribute("ye", ye);
+        List<Eodetail> eodetails = allservice.selectEodetailByPage((ye - 1) * 8);
+        request.setAttribute("eodetails", eodetails);
+        return "HCmanager/showeodetail";
+    }
+
+    //跳转到相应页面
+    @RequestMapping("/ordertiaoye")
+    public String ordertiaoye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = Integer.parseInt(request.getParameter("ye"));
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye < 1) {
+            ye = 1;
+        } else if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        List<Eodetail> eodetails = allservice.selectEodetailByPage((ye - 1) * 8);
+        request.setAttribute("eodetails", eodetails);
+        return "HCmanager/showeodetail";
+    }
+
+    //查看自己订单分页--------------------------------------------------------
+    @RequestMapping("/myordernextye")
+    public String myordernextye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") + 1;
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        Euser user = (Euser) session.getAttribute("user");
+        List<Eodetail> eodetails = allservice.selectmyEodetailByPage(user.getId(), (ye - 1) * 4);
+        request.setAttribute("eodetails", eodetails);
+        return "showmybuy";
+    }
+
+    @RequestMapping("/myorderlastye")
+    public String myorderlastye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") - 1;
+        if (ye < 1) {
+            ye = 1;
+        }
+        session.setAttribute("ye", ye);
+        Euser user = (Euser) session.getAttribute("user");
+        List<Eodetail> eodetails = allservice.selectmyEodetailByPage(user.getId(), (ye - 1) * 4);
+        request.setAttribute("eodetails", eodetails);
+        return "showmybuy";
+    }
+
+    @RequestMapping("/myordergofinal")
+    public String myordergofinal(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("zonye");
+        session.setAttribute("ye", ye);
+        Euser user = (Euser) session.getAttribute("user");
+        List<Eodetail> eodetails = allservice.selectmyEodetailByPage(user.getId(), (ye - 1) * 4);
+        request.setAttribute("eodetails", eodetails);
+        return "showmybuy";
+    }
+
+    //跳转到相应页面
+    @RequestMapping("/myordertiaoye")
+    public String myordertiaoye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = Integer.parseInt(request.getParameter("ye"));
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye < 1) {
+            ye = 1;
+        } else if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        Euser user = (Euser) session.getAttribute("user");
+        List<Eodetail> eodetails = allservice.selectmyEodetailByPage(user.getId(), (ye - 1) * 4);
+        request.setAttribute("eodetails", eodetails);
+        return "showmybuy";
+    }
+
+    //查看自己购物车分页--------------------------------------------------------
+    @RequestMapping("/gouwunextye")
+    public String gouwunextye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") + 1;
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        Euser user = (Euser) session.getAttribute("user");
+        List<Eorder> eorders = allservice.selectorderByuseridPage(user.getId(), (ye - 1) * 3);
+        request.setAttribute("eorders", eorders);
+        return "showgouwu";
+    }
+
+    @RequestMapping("/gouwulastye")
+    public String gouwulastye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("ye") - 1;
+        if (ye < 1) {
+            ye = 1;
+        }
+        session.setAttribute("ye", ye);
+        Euser user = (Euser) session.getAttribute("user");
+        List<Eorder> eorders = allservice.selectorderByuseridPage(user.getId(), (ye - 1) * 3);
+        request.setAttribute("eorders", eorders);
+        return "showgouwu";
+    }
+
+    @RequestMapping("/gouwugofinal")
+    public String gouwugofinal(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = (Integer) session.getAttribute("zonye");
+        session.setAttribute("ye", ye);
+        Euser user = (Euser) session.getAttribute("user");
+        List<Eorder> eorders = allservice.selectorderByuseridPage(user.getId(), (ye - 1) * 3);
+        request.setAttribute("eorders", eorders);
+        return "showgouwu";
+    }
+
+    //跳转到相应页面
+    @RequestMapping("/gouwutiaoye")
+    public String gouwutiaoye(HttpSession session, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        int ye = Integer.parseInt(request.getParameter("ye"));
+        int zonye = (Integer) session.getAttribute("zonye");
+        if (ye < 1) {
+            ye = 1;
+        } else if (ye > zonye) {
+            ye = zonye;
+        }
+        session.setAttribute("ye", ye);
+        Euser user = (Euser) session.getAttribute("user");
+        List<Eorder> eorders = allservice.selectorderByuseridPage(user.getId(), (ye - 1) * 3);
+        request.setAttribute("eorders", eorders);
+        return "showgouwu";
     }
 
 

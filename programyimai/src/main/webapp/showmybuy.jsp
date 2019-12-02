@@ -25,18 +25,17 @@
     <script type="text/javascript" src="js/uploadPreview.js"></script>
     <style type="text/css">
         #div2 {
-            width: 975px;
+            width: 535px;
             height: 440px;
             border: 1px solid skyblue;
         }
 
         #div3 {
-            width: 800px;
+            width: 535px;
         }
 
         #a3 {
-            width: 800px;
-            padding: 20px;
+            width: 535px;
             float: left;
             text-align: center;
             border-top: 2px solid orange;
@@ -59,29 +58,22 @@
 <div id="div2">
     <div id="div3">
         <br>
-        <span><img src="../img/aright-top.png"><b>用户管理</b></span>
+        <span><img src="../img/aright-top.png"><b>全部订单</b></span>
     </div>
     <div id="a3">
-        <table cellspacing="0" cellpadding="0" style="width: 800px">
+        <table cellspacing="0" cellpadding="0" style="width: 535px">
             <tr style="background-color: #FFEB99;height: 20px;">
-                <th class="q1">用户名</th>
-                <th class="q1">真实姓名</th>
-                <th class="q1">性别</th>
-                <th class="q1">Email</th>
-                <th class="q1">手机</th>
-                <th>操作</th>
+                <th class="q1">编号</th>
+                <th class="q1">姓名</th>
+                <th class="q1">发货地址</th>
+                <th class="q1" width="80px">状态</th>
             </tr>
-            <c:forEach items="${eusers}" var="euser">
+            <c:forEach items="${eodetails }" var="eodetail">
                 <tr style="height: 20px;">
-                    <td class="q1" style="text-align: center">${euser.loginname }</td>
-                    <td class="q1" style="text-align: center">${euser.username }</td>
-                    <td class="q1" style="text-align: center">${euser.sex==1?"男":"女" }</td>
-                    <td class="q1" style="text-align: center">${euser.email }</td>
-                    <td class="q1" style="text-align: center">${euser.mobile }</td>
-                    <td class="q2" style="text-align: center">
-                        <a href="updateuser.do?id=${euser.id }">修改</a>&nbsp;&nbsp;
-                        <a href="deleteuser.do?id=${euser.id }" onclick="return confirm('确认删除?')">删除</a>
-                    </td>
+                    <td class="q1" style="text-align: center">${eodetail.id }</td>
+                    <td class="q1">${eodetail.details }</td>
+                    <td class="q1">${eodetail.useraddress }</td>
+                    <td class="q2" style="text-align: center">${eodetail.status }</td>
                 </tr>
             </c:forEach>
         </table>
@@ -90,20 +82,17 @@
     <div style="float:right;font-size: 13px">
         <p>
             <span style="float: right">共&ensp;${totalPage }&ensp;条记录&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;${ye }/${zonye }页
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <span style="float: right"><a href="usernextye.do">下一页</a>&ensp;&ensp;
-                <a href="userlastye.do">上一页</a>&ensp;&ensp;<a href="usergofinal.do">最后一页</a>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span style="float: right"><a href="myordernextye.do">下一页</a>&ensp;&ensp;
+                <a href="myorderlastye.do">上一页</a>&ensp;&ensp;<a href="myordergofinal.do">最后一页</a>
             </span>
         </p>
-        <form name="form1" action="usertiaoye.do" method="post">
+        <form name="form1" action="myordertiaoye.do" method="post">
         <span>跳转至&ensp;&ensp;<input type="text" name="ye"/>&ensp;页&ensp;&ensp;&ensp;&ensp;
         <input type="submit" value="GO"/>
         </span>
         </form>
     </div>
-
 </div>
 
 <script type="text/javascript">

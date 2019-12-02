@@ -22,6 +22,10 @@ public class Allserviceimp implements Allservice {
     EpcategoryMapper epcategoryMapper;
     @Autowired
     EnewsMapper enewsMapper;
+    @Autowired
+    EorderMapper eorderMapper;
+    @Autowired
+    EodetailMapper eodetailMapper;
 
     //查用户验证
     public Euser selectuser(Euser user) {
@@ -211,4 +215,81 @@ public class Allserviceimp implements Allservice {
     public List<Epcategory> selectAllEpcategory() {
         return epcategoryMapper.selectAllEpcategory();
     }
+
+    //用户购物处理
+    //加入购物车
+    public int insertorderSelective(Eorder record) {
+        return eorderMapper.insertSelective(record);
+    }
+
+    //根据商品id判断购物车是否有此物品
+    public Eorder selectByproductid(Integer id, Integer userid) {
+        return eorderMapper.selectByproductid(id, userid);
+    }
+
+    //商品已经加入过购物车修改数量
+    public int updateorderByPrimaryKeySelective(Eorder record) {
+        return eorderMapper.updateByPrimaryKeySelective(record);
+    }
+
+    //显示购物车
+    public List<Eorder> selectallorderByuserid(Integer id) {
+        return eorderMapper.selectallorderByuserid(id);
+    }
+
+    //显示购物车分页
+    public List<Eorder> selectorderByuseridPage(Integer id, Integer ye) {
+        return eorderMapper.selectorderByuseridPage(id, ye);
+    }
+
+    //删除购物车的东西
+    public int deleteorderByPrimaryKey(Integer id) {
+        return eorderMapper.deleteByPrimaryKey(id);
+    }
+
+    //根据订单id查询订单
+    public Eorder selectorderByPrimaryKey(Integer id) {
+        return eorderMapper.selectByPrimaryKey(id);
+    }
+
+    //生成订单,插入数据库
+    public int insertEodetailSelective(Eodetail record) {
+        return eodetailMapper.insertSelective(record);
+    }
+
+    //显示所有订单
+    public List<Eodetail> selectAllEodetail() {
+        return eodetailMapper.selectAllEodetail();
+    }
+
+    //分页查询
+    public List<Eodetail> selectEodetailByPage(Integer ye) {
+        return eodetailMapper.selectEodetailByPage(ye);
+    }
+
+    //删除订单根据id
+    public int deleteEodetailByPrimaryKey(Integer id) {
+        return eodetailMapper.deleteByPrimaryKey(id);
+    }
+
+    //找到付款订单
+    public Eodetail selectEodetailByPrimaryKey(Integer id) {
+        return eodetailMapper.selectByPrimaryKey(id);
+    }
+
+    //修改订单
+    public int updateEodetailByPrimaryKeySelective(Eodetail record) {
+        return eodetailMapper.updateByPrimaryKeySelective(record);
+    }
+
+    //查看自己的购物车
+    public List<Eodetail> selectmyEodetail(Integer id) {
+        return eodetailMapper.selectmyEodetail(id);
+    }
+
+    //分页查询自己的
+    public List<Eodetail> selectmyEodetailByPage(Integer id, Integer ye) {
+        return eodetailMapper.selectmyEodetailByPage(id, ye);
+    }
+
 }

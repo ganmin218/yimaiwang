@@ -152,4 +152,9 @@ public class Eproduct {
         this.categorylevel1id = categorylevel1id;
         this.filename = filename;
     }
+
+    public Eproduct(Integer id, Integer stock) {
+        this.id = id;
+        this.stock = stock;
+    }
 }

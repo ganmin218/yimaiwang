@@ -70,7 +70,7 @@
                              </c:when>
                          </c:choose>
                         <img src="img/gouwu.png">
-                        <a href="showgouwu.do">购物车</a>&nbsp;&nbsp;
+                        <a href="showgouwu.do" target="central">购物车</a>&nbsp;&nbsp;
                         <c:choose>
                             <c:when test="${empty user }">
                                 <a href="register.jsp" target="_blank">注册</a>&nbsp;&nbsp;

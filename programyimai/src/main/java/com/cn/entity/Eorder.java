@@ -1,36 +1,31 @@
 package com.cn.entity;
 
-import java.util.Date;
-
 public class Eorder {
     private Integer id;
 
-    private Integer userid;
+    private Integer productid;
 
-    private String loginname;
+    private Integer euserid;
 
-    private String useraddress;
+    private String productname;
 
-    private Date createtime;
+    private String productfilname;
+
+    private Integer quantity;
+
+    private String userloginname;
 
     private Float cost;
 
-    private String serialnumber;
-
-    private String status;
-
-    private String type;
-
-    public Eorder(Integer id, Integer userid, String loginname, String useraddress, Date createtime, Float cost, String serialnumber, String status, String type) {
+    public Eorder(Integer id, Integer productid, Integer euserid, String productname, String productfilname, Integer quantity, String userloginname, Float cost) {
         this.id = id;
-        this.userid = userid;
-        this.loginname = loginname;
-        this.useraddress = useraddress;
-        this.createtime = createtime;
+        this.productid = productid;
+        this.euserid = euserid;
+        this.productname = productname;
+        this.productfilname = productfilname;
+        this.quantity = quantity;
+        this.userloginname = userloginname;
         this.cost = cost;
-        this.serialnumber = serialnumber;
-        this.status = status;
-        this.type = type;
     }
 
     public Eorder() {
@@ -45,36 +40,52 @@ public class Eorder {
         this.id = id;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getProductid() {
+        return productid;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setProductid(Integer productid) {
+        this.productid = productid;
     }
 
-    public String getLoginname() {
-        return loginname;
+    public Integer getEuserid() {
+        return euserid;
     }
 
-    public void setLoginname(String loginname) {
-        this.loginname = loginname == null ? null : loginname.trim();
+    public void setEuserid(Integer euserid) {
+        this.euserid = euserid;
     }
 
-    public String getUseraddress() {
-        return useraddress;
+    public String getProductname() {
+        return productname;
     }
 
-    public void setUseraddress(String useraddress) {
-        this.useraddress = useraddress == null ? null : useraddress.trim();
+    public void setProductname(String productname) {
+        this.productname = productname == null ? null : productname.trim();
     }
 
-    public Date getCreatetime() {
-        return createtime;
+    public String getProductfilname() {
+        return productfilname;
     }
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+    public void setProductfilname(String productfilname) {
+        this.productfilname = productfilname == null ? null : productfilname.trim();
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getUserloginname() {
+        return userloginname;
+    }
+
+    public void setUserloginname(String userloginname) {
+        this.userloginname = userloginname == null ? null : userloginname.trim();
     }
 
     public Float getCost() {
@@ -85,27 +96,33 @@ public class Eorder {
         this.cost = cost;
     }
 
-    public String getSerialnumber() {
-        return serialnumber;
+    public Eorder(Integer productid, Integer euserid, String productname, String productfilname, Integer quantity, String userloginname, Float cost) {
+        this.productid = productid;
+        this.euserid = euserid;
+        this.productname = productname;
+        this.productfilname = productfilname;
+        this.quantity = quantity;
+        this.userloginname = userloginname;
+        this.cost = cost;
     }
 
-    public void setSerialnumber(String serialnumber) {
-        this.serialnumber = serialnumber == null ? null : serialnumber.trim();
+    @Override
+    public String toString() {
+        return "Eorder{" +
+                "id=" + id +
+                ", productid=" + productid +
+                ", euserid=" + euserid +
+                ", productname='" + productname + '\'' +
+                ", productfilname='" + productfilname + '\'' +
+                ", quantity=" + quantity +
+                ", userloginname='" + userloginname + '\'' +
+                ", cost=" + cost +
+                '}';
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public Eorder(Integer id, Integer quantity, Float cost) {
+        this.id = id;
+        this.quantity = quantity;
+        this.cost = cost;
     }
 }

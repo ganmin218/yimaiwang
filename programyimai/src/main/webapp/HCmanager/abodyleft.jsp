@@ -71,7 +71,7 @@
         </dl>
         <dl>
             <dt>订单管理</dt>
-            <dd><img src="img/left-dd.png">订单管理</dd>
+            <dd><a href="showeodetail.do" target="abodyright"><img src="img/left-dd.png">订单管理</a></dd>
         </dl>
         <dl>
             <dt>留言管理</dt>

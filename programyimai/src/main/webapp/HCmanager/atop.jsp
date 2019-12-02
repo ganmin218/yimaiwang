@@ -72,7 +72,7 @@
                 <td><a href="adminshouye.do?leftmessage=管理后台" target="_blank">首页</a></td>
                 <td><a href="showuser.do" target="abodyright">用户</a></td>
                 <td><a href="showleibie.do" target="abodyright">商品</a></td>
-                <td>订单</td>
+                <td><a href="showeodetail.do" target="abodyright">订单</a></td>
                 <td><a href="amessage.do" target="abodyright">留言</a></td>
                 <td><a href="selectnews.do" target="abodyright">新闻</a></td>
                 <td></td>

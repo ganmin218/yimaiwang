@@ -101,5 +101,48 @@ public interface Allservice {
     //查全部二级目录
     List<Epcategory> selectAllEpcategory();
 
+    //用户购物处理
+    //加入购物车
+    int insertorderSelective(Eorder record);
+
+    //根据商品id判断购物车是否有此物品
+    Eorder selectByproductid(Integer id, Integer userid);
+
+    //商品已经加入过购物车修改数量
+    int updateorderByPrimaryKeySelective(Eorder record);
+
+    //显示购物车
+    List<Eorder> selectallorderByuserid(Integer id);
+
+    int deleteorderByPrimaryKey(Integer id);
+
+    //显示购物车分页
+    List<Eorder> selectorderByuseridPage(Integer id, Integer ye);
+
+    //根据订单id查询订单
+    Eorder selectorderByPrimaryKey(Integer id);
+
+    //生成订单,插入数据库
+    int insertEodetailSelective(Eodetail record);
+
+    //显示所有订单
+    List<Eodetail> selectAllEodetail();
+
+    //分页查询
+    List<Eodetail> selectEodetailByPage(Integer ye);
+
+    //删除订单根据id
+    int deleteEodetailByPrimaryKey(Integer id);
+
+    Eodetail selectEodetailByPrimaryKey(Integer id);
+
+    //修改订单
+    int updateEodetailByPrimaryKeySelective(Eodetail record);
+
+    //查看自己的购物车
+    List<Eodetail> selectmyEodetail(Integer id);
+
+    //分页查询自己的
+    List<Eodetail> selectmyEodetailByPage(Integer id, Integer ye);
 
 }

@@ -1,143 +1,156 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.dao.EorderMapper">
-    <resultMap id="BaseResultMap" type="com.cn.entity.Eorder">
-        <constructor>
-            <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
-            <arg column="userId" jdbcType="INTEGER" javaType="java.lang.Integer"/>
-            <arg column="loginName" jdbcType="VARCHAR" javaType="java.lang.String"/>
-            <arg column="userAddress" jdbcType="VARCHAR" javaType="java.lang.String"/>
-            <arg column="createTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
-            <arg column="cost" jdbcType="REAL" javaType="java.lang.Float"/>
-            <arg column="serialNumber" jdbcType="VARCHAR" javaType="java.lang.String"/>
-            <arg column="status" jdbcType="VARCHAR" javaType="java.lang.String"/>
-            <arg column="type" jdbcType="VARCHAR" javaType="java.lang.String"/>
-        </constructor>
-    </resultMap>
-    <sql id="Base_Column_List">
-    id, userId, loginName, userAddress, createTime, cost, serialNumber, status, type
+  <resultMap id="BaseResultMap" type="com.cn.entity.Eorder">
+    <constructor>
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+      <arg column="productId" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+      <arg column="euserId" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+      <arg column="productname" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <arg column="productfilname" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <arg column="quantity" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+      <arg column="userloginname" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <arg column="cost" jdbcType="REAL" javaType="java.lang.Float"/>
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, productId, euserId, productname, productfilname, quantity, userloginname, cost
   </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Base_Column_List"/>
-        from eorder
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from eorder
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--selectByproductid根据产品id查看订单-->
+  <select id="selectByproductid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from eorder
+    where productId = #{param1}
+    and euserId =#{param2 }
+  </select>
+
+  <!--selectallorderByuserid查看自己的购物车-->
+  <select id="selectallorderByuserid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from eorder
+    where euserId =#{id }
+  </select>
+  <!--selectallorderByuserid显示购物车分页-->
+  <select id="selectorderByuseridPage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List"/>
+    from eorder
+    where euserId = #{param1 }
+    limit #{param2 },3;
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from eorder
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.cn.entity.Eorder">
-    insert into eorder (id, userId, loginName, 
-      userAddress, createTime, cost, 
-      serialNumber, status, type
-      )
-    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{loginname,jdbcType=VARCHAR}, 
-      #{useraddress,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{cost,jdbcType=REAL}, 
-      #{serialnumber,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.cn.entity.Eorder">
+    insert into eorder (id, productId, euserId, 
+      productname, productfilname, quantity, 
+      userloginname, cost)
+    values (#{id,jdbcType=INTEGER}, #{productid,jdbcType=INTEGER}, #{euserid,jdbcType=INTEGER}, 
+      #{productname,jdbcType=VARCHAR}, #{productfilname,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{userloginname,jdbcType=VARCHAR}, #{cost,jdbcType=REAL})
   </insert>
-    <insert id="insertSelective" parameterType="com.cn.entity.Eorder">
-        insert into eorder
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="userid != null">
-                userId,
-            </if>
-            <if test="loginname != null">
-                loginName,
-            </if>
-            <if test="useraddress != null">
-                userAddress,
-            </if>
-            <if test="createtime != null">
-                createTime,
-            </if>
-            <if test="cost != null">
-                cost,
-            </if>
-            <if test="serialnumber != null">
-                serialNumber,
-            </if>
-            <if test="status != null">
-                status,
-            </if>
-            <if test="type != null">
-                type,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="userid != null">
-                #{userid,jdbcType=INTEGER},
-            </if>
-            <if test="loginname != null">
-                #{loginname,jdbcType=VARCHAR},
-            </if>
-            <if test="useraddress != null">
-                #{useraddress,jdbcType=VARCHAR},
-            </if>
-            <if test="createtime != null">
-                #{createtime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="cost != null">
-                #{cost,jdbcType=REAL},
-            </if>
-            <if test="serialnumber != null">
-                #{serialnumber,jdbcType=VARCHAR},
-            </if>
-            <if test="status != null">
-                #{status,jdbcType=VARCHAR},
-            </if>
-            <if test="type != null">
-                #{type,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.cn.entity.Eorder">
-        update eorder
-        <set>
-            <if test="userid != null">
-                userId = #{userid,jdbcType=INTEGER},
-            </if>
-            <if test="loginname != null">
-                loginName = #{loginname,jdbcType=VARCHAR},
-            </if>
-            <if test="useraddress != null">
-                userAddress = #{useraddress,jdbcType=VARCHAR},
-            </if>
-            <if test="createtime != null">
-                createTime = #{createtime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="cost != null">
-                cost = #{cost,jdbcType=REAL},
-            </if>
-            <if test="serialnumber != null">
-                serialNumber = #{serialnumber,jdbcType=VARCHAR},
-            </if>
-            <if test="status != null">
-                status = #{status,jdbcType=VARCHAR},
-            </if>
-            <if test="type != null">
-                type = #{type,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.cn.entity.Eorder">
+  <insert id="insertSelective" parameterType="com.cn.entity.Eorder">
+    insert into eorder
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productid != null">
+        productId,
+      </if>
+      <if test="euserid != null">
+        euserId,
+      </if>
+      <if test="productname != null">
+        productname,
+      </if>
+      <if test="productfilname != null">
+        productfilname,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="userloginname != null">
+        userloginname,
+      </if>
+      <if test="cost != null">
+        cost,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="productid != null">
+        #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="euserid != null">
+        #{euserid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productfilname != null">
+        #{productfilname,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="userloginname != null">
+        #{userloginname,jdbcType=VARCHAR},
+      </if>
+      <if test="cost != null">
+        #{cost,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cn.entity.Eorder">
     update eorder
-    set userId = #{userid,jdbcType=INTEGER},
-      loginName = #{loginname,jdbcType=VARCHAR},
-      userAddress = #{useraddress,jdbcType=VARCHAR},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      cost = #{cost,jdbcType=REAL},
-      serialNumber = #{serialnumber,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR}
+    <set>
+      <if test="productid != null">
+        productId = #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="euserid != null">
+        euserId = #{euserid,jdbcType=INTEGER},
+      </if>
+      <if test="productname != null">
+        productname = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productfilname != null">
+        productfilname = #{productfilname,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="userloginname != null">
+        userloginname = #{userloginname,jdbcType=VARCHAR},
+      </if>
+      <if test="cost != null">
+        cost = #{cost,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cn.entity.Eorder">
+    update eorder
+    set productId = #{productid,jdbcType=INTEGER},
+      euserId = #{euserid,jdbcType=INTEGER},
+      productname = #{productname,jdbcType=VARCHAR},
+      productfilname = #{productfilname,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
+      userloginname = #{userloginname,jdbcType=VARCHAR},
+      cost = #{cost,jdbcType=REAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
