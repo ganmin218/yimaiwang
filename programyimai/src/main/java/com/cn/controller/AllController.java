@@ -15,13 +15,12 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class AllController {
+    public static int count = 0;
+    public static HashMap<String, Eproduct> map = new HashMap<String, Eproduct>();
     @Autowired
     Allservice allservice;
 
@@ -58,6 +57,7 @@ public class AllController {
             session.setAttribute("totalPage", totalPage);
             session.setAttribute("zonye", zonye);
             session.setAttribute("ye", ye);
+            session.setAttribute("leftmessage", "产品展示");
             return "shouye";
         }
     }
@@ -121,6 +121,7 @@ public class AllController {
         session.setAttribute("totalPage", totalPage);
         session.setAttribute("zonye", zonye);
         session.setAttribute("ye", ye);
+        session.setAttribute("leftmessage", "产品展示");
         return "shouye";
     }
 
@@ -159,6 +160,7 @@ public class AllController {
     public String enewsshow(HttpSession session, HttpServletRequest request, Integer id) {
         Enews enewsshow = allservice.selectEnewsByPrimaryKey(id);
         request.setAttribute("enewsshow", enewsshow);
+        session.setAttribute("leftmessage", "新闻");
         return "enewsshow";
     }
 
@@ -175,6 +177,8 @@ public class AllController {
         session.setAttribute("zonye", zonye);
         session.setAttribute("ye", ye);
         session.setAttribute("epcategoryId", id);
+        Epcategory epcategoryaa = allservice.selectEpcategoryByPrimaryKey(id);
+        session.setAttribute("leftmessage", epcategoryaa.getName());
         return "showproduct";
     }
 
@@ -182,6 +186,7 @@ public class AllController {
     @RequestMapping("/details")
     public String details(HttpSession session, HttpServletRequest request, Integer id) {
         Eproduct eproduct = allservice.selectproductByPrimaryKey(id);
+        jilu(session, id);
         request.setAttribute("eproduct", eproduct);
         return "details";
     }
@@ -202,11 +207,13 @@ public class AllController {
                 Eorder eorder = new Eorder(eproduct.getId(), user.getId(), eproduct.getName(), eproduct.getFilename(),
                         1, user.getLoginname(), eproduct.getPrice());
                 allservice.insertorderSelective(eorder);
+                session.setAttribute("leftmessage", "购物车");
                 return showgouwu(session, request);
             } else {
                 //购物车有就加一件
                 Eorder eorder2 = new Eorder(eorder1.getId(), eorder1.getQuantity() + 1, eorder1.getCost() + eproduct.getPrice());
                 allservice.updateorderByPrimaryKeySelective(eorder2);
+                session.setAttribute("leftmessage", "购物车");
                 return showgouwu(session, request);
             }
         }
@@ -229,6 +236,7 @@ public class AllController {
             session.setAttribute("zonye", zonye);
             session.setAttribute("ye", ye);
             request.setAttribute("eorders", eorders);
+            session.setAttribute("leftmessage", "购物车");
             return "showgouwu";
         }
     }
@@ -304,6 +312,7 @@ public class AllController {
         session.setAttribute("zonye", zonye);
         session.setAttribute("ye", ye);
         request.setAttribute("eodetails", eodetails);
+        session.setAttribute("leftmessage", "订单展示");
         return "showmybuy";
     }
 
@@ -1294,6 +1303,57 @@ public class AllController {
         request.setAttribute("eorders", eorders);
         return "showgouwu";
     }
+
+
+    //浏览记录功能
+    public void jilu(HttpSession session, Integer id) {
+        Eproduct eproductaa = allservice.selectproductByPrimaryKey(id);
+        List<Eproduct> listEproducts = new ArrayList<Eproduct>();
+        if (count == 0) {
+            map.put("1", eproductaa);
+            listEproducts.add(map.get("1"));
+            session.setAttribute("listEproducts", listEproducts);
+        } else if (count == 1) {
+            map.put("2", eproductaa);
+            listEproducts.add(map.get("1"));
+            listEproducts.add(map.get("2"));
+            session.setAttribute("listEproducts", listEproducts);
+        } else if (count == 2) {
+            map.put("3", eproductaa);
+            listEproducts.add(map.get("1"));
+            listEproducts.add(map.get("2"));
+            listEproducts.add(map.get("3"));
+            session.setAttribute("listEproducts", listEproducts);
+        } else if (count > 2) {
+            //查看记录有没有这个商品,去重
+            boolean flag = true;
+            if (eproductaa.getName().equals(map.get("1").getName())) {
+                flag = false;
+            }
+            if (eproductaa.getName().equals(map.get("2").getName())) {
+                flag = false;
+            }
+            if (eproductaa.getName().equals(map.get("3").getName())) {
+                flag = false;
+            }
+            if (flag == true) {
+                map.remove("1");
+                Eproduct eproductaa2 = map.get("2");
+                Eproduct eproductaa3 = map.get("3");
+                map.remove("2");
+                map.remove("3");
+                map.put("1", eproductaa2);
+                map.put("2", eproductaa3);
+                map.put("3", eproductaa);
+                listEproducts.add(map.get("1"));
+                listEproducts.add(map.get("2"));
+                listEproducts.add(map.get("3"));
+                session.setAttribute("listEproducts", listEproducts);
+            }
+        }
+        count++;
+    }
+
 
 
 

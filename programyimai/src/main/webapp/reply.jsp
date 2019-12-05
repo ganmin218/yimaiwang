@@ -38,11 +38,23 @@
             font-size: 12px;
             font-weight: bold;
         }
+
+        .d1 {
+            width: 80px;
+            height: 120px;
+            float: left;
+            overflow: hidden;
+            margin-left: 30px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 15px;
+        }
     </style>
 </head>
 
 <body>
 <div id="div2">
+    <span style="font-size: 8px;">您现在的位置:易买网&nbsp;>&nbsp;${leftmessage }</span>
     <div id="div3">
         <span><img src="../img/aright-top.png"><b>全部留言</b></span><br>
         <hr style="border: 1px solid orange">
@@ -86,6 +98,23 @@
             </table>
         </form>
     </div>
+
+    <c:choose>
+        <c:when test="${!empty listEproducts }">
+            <div style="width: 450px;padding: 20px;float: left;">
+                <p>浏览记录:</p>
+                <c:forEach items="${listEproducts }" var="listEproduct">
+                    <div class="d1">
+                        <a href="details.do?id=${listEproduct.id }"><img name="ig"
+                                                                         src="upload/${listEproduct.filename }"
+                                                                         style="width: 80px;height: 80px;">
+                                ${listEproduct.name }
+                                ${listEproduct.price }</a>
+                    </div>
+                </c:forEach>
+            </div>
+        </c:when>
+    </c:choose>
 </div>
 
 <script type="text/javascript">

@@ -117,7 +117,7 @@
     </div>
     <c:choose>
         <c:when test="${!empty leftmessage}">
-            <span style="margin-left: 120px">您现在的位置:易买网&nbsp;>&nbsp;${leftmessage }</span>
+            <%--<span style="margin-left: 120px">您现在的位置:易买网&nbsp;>&nbsp;${leftmessage }</span>--%>
         </c:when>
     </c:choose>
 
