@@ -75,37 +75,40 @@
                     <b>新闻动态</b>
                 </div>
                 <div class="a2">
-                    <ul>
-                        <c:forEach items="${enews}" var="enew">
-                            <li><img src="img/right.png"><a href="enewsshow.do?id=${enew.id }"
-                                                            target="central">${enew.title }</a></li>
-                        </c:forEach>
-                    </ul>
+                    <marquee behavior="scroll" direction="down" height="250px" scrollamount="6" onmouseover=this.stop()
+                             onmouseout=this.start()>
+                        <ul>
+                            <c:forEach items="${enews}" var="enew">
+                                <li><img src="img/right.png"><a href="enewsshow.do?id=${enew.id }"
+                                                                target="central">${enew.title }</a></li>
+                            </c:forEach>
+                        </ul>
+                    </marquee>
                 </div>
             </div>
     </div>
 
 
 <script type="text/javascript">
-    var time = setInterval(function () {
-        t();
-    }, 5000)
-
-    function t() {
-        var he = $(".a2>ul>li").height();//找到li高
-        $(".a2>ul>li").eq(0).appendTo($(".a2>ul")); //复制第一个到最后一个
-        $(".a2>ul").animate({
-            "marginTop": "-" + he
-        }, 500, function () {
-            $(".a2>ul").css({
-                "marginTop": 0
-            })
-        })
-    }
-
-    $(function () {
-        $(".a2>ul li:gt(8)").hide();
-    })
+    // var time = setInterval(function () {
+    //     t();
+    // }, 2000)
+    //
+    // function t() {
+    //     var he = $(".a2>ul>li").height();//找到li高
+    //     $(".a2>ul>li").eq(0).appendTo($(".a2>ul")); //复制第一个到最后一个
+    //     $(".a2>ul").animate({
+    //         "marginTop": "-" - he
+    //     }, 500, function () {
+    //         $(".a2>ul").css({
+    //             "marginTop": 0
+    //         })
+    //     })
+    // }
+    //
+    // $(function () {
+    //     $(".a2>ul li:gt(8)").hide();
+    // })
 </script>
 </body>
 </html>
