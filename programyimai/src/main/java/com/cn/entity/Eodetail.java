@@ -140,4 +140,9 @@ public class Eodetail {
         this.cost = cost;
         this.status = status;
     }
+
+    public Eodetail(Integer id, String loginname) {
+        this.id = id;
+        this.loginname = loginname;
+    }
 }

@@ -292,4 +292,9 @@ public class Allserviceimp implements Allservice {
         return eodetailMapper.selectmyEodetailByPage(id, ye);
     }
 
+    //模糊查询订单
+    public List<Eodetail> selectEodetailByidname(Eodetail eodetail) {
+        return eodetailMapper.selectEodetailByidname(eodetail);
+    }
+
 }

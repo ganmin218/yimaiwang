@@ -145,4 +145,8 @@ public interface Allservice {
     //分页查询自己的
     List<Eodetail> selectmyEodetailByPage(Integer id, Integer ye);
 
+
+    //模糊查询订单
+    List<Eodetail> selectEodetailByidname(Eodetail eodetail);
+
 }

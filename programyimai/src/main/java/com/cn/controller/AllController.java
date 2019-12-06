@@ -341,6 +341,17 @@ public class AllController {
         return "showmybuy";
     }
 
+    //模糊查询订单
+    @RequestMapping("/chaxun")
+    public void chaxun(HttpServletRequest request, HttpServletResponse response, Integer id, String loginname) throws Exception {
+        response.setContentType("text/html; charset=utf-8");
+        response.setCharacterEncoding("utf-8");
+        Eodetail eodetail = new Eodetail(id, loginname);
+        List<Eodetail> eodetails = allservice.selectEodetailByidname(eodetail);
+        Object json = JSON.toJSON(eodetails);
+        response.getWriter().print(json);
+    }
+
 
 
 

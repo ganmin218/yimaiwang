@@ -55,6 +55,21 @@
     limit #{param2},4;
   </select>
 
+  <!--查看订单,模糊查询selectEodetailByidname-->
+  <select id="selectEodetailByidname" resultMap="BaseResultMap" parameterType="com.cn.entity.Eodetail">
+    select
+    <include refid="Base_Column_List"/>
+    from eodetail
+    <where>
+      <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="id != null">
+        and loginName = #{loginname,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from eodetail
     where id = #{id,jdbcType=INTEGER}

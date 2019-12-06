@@ -60,15 +60,18 @@
     <div id="div3">
         <br>
         <span><img src="../img/aright-top.png"><b>订单管理</b></span>
-    </div>
-    <div id="a3">
-        <table cellspacing="0" cellpadding="0" style="width: 800px">
+        <div id="a3">
+            <span style="float: right;">订单号:<input id="id" type="text" name="id"/>
+            订货人:<input id="loginname" type="text" name="loginname"/>
+            <input id="chaxun" type="button" value="查询" style="background-color: darkblue"/>
+            </span>
+            <table cellspacing="0" cellpadding="0" style="width: 800px">
             <tr style="background-color: #FFEB99;height: 20px;">
                 <th class="q1">编号</th>
                 <th class="q1">姓名</th>
                 <th class="q1" width="500px">发货地址</th>
-                <th class="q1">状态</th>
-                <th>操作</th>
+                <th class="q1" width="80px">状态</th>
+                <th width="80px">操作</th>
             </tr>
             <c:forEach items="${eodetails }" var="eodetail">
                 <tr style="height: 20px;">
@@ -85,7 +88,7 @@
         </table>
     </div>
 
-    <div style="float:right;font-size: 13px">
+        <div id="xx" style="float:right;font-size: 13px">
         <p>
             <span style="float: right">共&ensp;${totalPage }&ensp;条记录&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;${ye }/${zonye }页
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -104,6 +107,33 @@
 </div>
 
 <script type="text/javascript">
+    $("#chaxun").click(function () {
+        /* $("tr:gt(0)").remove();*/
+        $("#xx").hide();
+        $("table tr:not(:first)").remove();
+        var id = $("#id").val();
+        var loginname = $("#loginname").val();
+        $.getJSON("chaxun.do", "id=" + id + "&&loginname=" + loginname, collback);
+
+        function collback(data) {
+            $(data).each(
+                function () {
+                    var tr = $("<tr style='height: 20px;'></tr>");
+                    var td1 = $("<td class=\"q1\" style=\"text-align: center\">" + this.id + "</td>");
+                    var td2 = $("<td class=\"q1\" style=\"text-align: center\">" + this.loginname + "</td>");
+                    var td3 = $("<td class=\"q1\">" + this.useraddress + "</td>");
+                    var td4 = $("<td class=\"q1\" style=\"text-align: center\">" + this.status + "</td>");
+                    var td5 = $("<td class=\"q2\" style=\"text-align: center\">" + "<a href=' updateeodetails.do?id=" + this.id + " '>修改</a>&nbsp;&nbsp;" +
+                        "<a href=' deleteeodetails.do?id=" + this.id + " ' onclick='return confirm('确认删除?')'>删除</a>" + "</td>");
+                    tr.append(td1);
+                    tr.append(td2);
+                    tr.append(td3);
+                    tr.append(td4);
+                    tr.append(td5);
+                    $("table tr:first").after(tr);
+                });
+        }
+    })
 </script>
 </body>
 </html>
