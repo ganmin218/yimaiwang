@@ -74,7 +74,8 @@ public class AllController {
     @RequestMapping("/zhuxiao")
     public String zhuxiao(HttpSession session, HttpServletRequest request) {
         session.invalidate();
-        return goshouye(session, request);
+        HttpSession session1 = request.getSession();
+        return goshouye(session1, request);
     }
     //查看留言页面
     @RequestMapping("/message")
@@ -297,6 +298,30 @@ public class AllController {
             allservice.deleteorderByPrimaryKey(id1);
         }
         return showgouwu(session, request);
+    }
+
+    //直接购买gomai
+    @RequestMapping("/gomai")
+    public String gomai(HttpSession session, HttpServletRequest request, Integer id) {
+        Euser user = (Euser) session.getAttribute("user");
+        if (user == null) {
+            return "login";
+        } else {
+            String details = "";
+            Eproduct eproductbuy = allservice.selectproductByPrimaryKey(id);
+            details = details + "编号:" + "直接下单" + "  产品名称:" + eproductbuy.getName() + "  产品数量:" + 1 + "  产品小计:" + eproductbuy.getPrice() + ";";
+            String uuid = UUID.randomUUID().toString().replace("-", "");
+            Eodetail eodetail = new Eodetail(user.getId(), user.getLoginname(), details, user.getAddress(), new Date(), eproductbuy.getPrice(), uuid, "下单", "已支付");
+            allservice.insertEodetailSelective(eodetail);
+            //数据一致性;保证库存减少
+            //产品表减少库存
+            //原有的商品库存eproductbuy.getStock();减去的数量1
+            int stock = eproductbuy.getStock() - 1;
+            Eproduct eproduct22 = new Eproduct(eproductbuy.getId(), stock);
+            //更新产品库存
+            allservice.updateproductByPrimaryKeySelective(eproduct22);
+            return showgouwu(session, request);
+        }
     }
 
     //查看自己的订单showmybuy
