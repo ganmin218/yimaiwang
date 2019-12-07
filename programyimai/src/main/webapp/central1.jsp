@@ -40,6 +40,7 @@
     <p><span style="margin-left: 25px;">
   欢迎来到论文管理系统!
   </span></p>
+    <span>1<img src="yanzheng.jsp"></span>
 </div>
 
 <script type="text/javascript">

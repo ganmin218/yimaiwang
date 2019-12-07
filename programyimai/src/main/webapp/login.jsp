@@ -145,6 +145,12 @@
                             <td><span id="d2" class="span"></span></td>
                         </tr>
                         <tr>
+                            <td>验证码:</td>
+                            <td><input type="text" id="yanzheng" name="yanzheng" onblur="checkcode()"/><img
+                                    src="yanzheng.jsp"></td>
+                            <td><span id="d3" class="span"></span></td>
+                        </tr>
+                        <tr>
                             <td><input style="background-color: green" type="submit" value="立即登录"/></td>
                         </tr>
                     </table>

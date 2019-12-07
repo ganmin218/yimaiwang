@@ -26,10 +26,15 @@ public class AllController {
 
     //登陆验证
     @RequestMapping("/login")
-    public String login(HttpSession session, HttpServletRequest request, String loginname, String password) {
+    public String login(HttpSession session, HttpServletRequest request, String loginname, String password, String yanzheng) {
         Euser user = new Euser(loginname, password);
+        boolean f = false;
         Euser selectuser = allservice.selectuser(user);
-        if (selectuser == null) {
+        String rand = (String) session.getAttribute("rand");
+        if (rand.equals(yanzheng)) {
+            f = true;
+        }
+        if (selectuser == null || f == false) {
             return "login";
         } else {
             session.setAttribute("user", selectuser);
@@ -64,10 +69,23 @@ public class AllController {
 
     //注册
     @RequestMapping("/register")
-    public String register(HttpSession session, HttpServletRequest request, Euser user) {
-        System.out.println(user);
-        allservice.insertUser(user);
-        return "login";
+    public String register(HttpSession session, HttpServletRequest request, Euser user, String yanzheng) {
+        boolean f = false;
+        String rand = (String) session.getAttribute("rand");
+        if (rand.equals(yanzheng)) {
+            f = true;
+        }
+        if (f == false) {
+            return "register";
+        } else {
+            allservice.insertUser(user);
+            Euser selectuser = allservice.selectuser(user);
+            if (selectuser == null) {
+                return "register";
+            } else {
+                return "login";
+            }
+        }
     }
 
     //注销用户
@@ -346,6 +364,7 @@ public class AllController {
     public void chaxun(HttpServletRequest request, HttpServletResponse response, Integer id, String loginname) throws Exception {
         response.setContentType("text/html; charset=utf-8");
         response.setCharacterEncoding("utf-8");
+        System.out.println(loginname);
         Eodetail eodetail = new Eodetail(id, loginname);
         List<Eodetail> eodetails = allservice.selectEodetailByidname(eodetail);
         Object json = JSON.toJSON(eodetails);

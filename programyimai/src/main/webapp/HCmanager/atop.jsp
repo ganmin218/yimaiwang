@@ -85,7 +85,11 @@
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 String now = df.format(d);
             %>
-            <span style="float: right">管理员${user.loginname }您好,今天是<%=now %>,欢迎回到管理后台。</span><br><br>
+            <%--<span style="float: right">--%>
+            <marquee behavior="scroll" direction="left" scrollamount="8">管理员${user.loginname }您好,今天是<%=now %>
+                ,欢迎回到管理后台。
+            </marquee>
+            <%--</span>--%>
         </div>
 
     </div>

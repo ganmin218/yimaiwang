@@ -189,6 +189,10 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>验证码:</td>
+                            <td><input type="text" id="yanzheng" name="yanzheng"/><img src="yanzheng.jsp"></td>
+                        </tr>
+                        <tr>
                             <td colspan="2">
                                 <input type="submit" value="提交注册" style="background-color: green"/>
                             </td>
